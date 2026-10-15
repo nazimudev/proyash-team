@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* Brand tokens — Tailwind v4. (On Tailwind v3, move these into tailwind.config.js > theme.extend.colors.) */
+@theme {
+  --color-forest: #166534;
+  --color-deep: #102a20;
+  --color-surface: #0b2118;
+  --color-fresh: #22c55e;
+  --color-mist: #f0f7f1;
+  --color-paper: #fafcf9;
+  --color-ink: #17231b;
+  --color-muted: #66736a;
+}
+
+@theme inline {
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-padding-top: 5.5rem;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+/* Keyboard focus: visible everywhere, brighter on dark sections */
+:focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: 3px;
+}
+.on-dark :focus-visible {
+  outline-color: var(--color-fresh);
+}
+
+/* Signature shape: a "leaf" corner treatment used on photography.
+   Opposite corners are large, the other two stay small. */
+@utility leaf {
+  --leaf-r: clamp(2.25rem, 7vw, 5.25rem);
+  border-radius: var(--leaf-r) 0.5rem var(--leaf-r) 0.5rem;
+}
+@utility leaf-alt {
+  --leaf-r: clamp(2.25rem, 7vw, 5.25rem);
+  border-radius: 0.5rem var(--leaf-r) 0.5rem var(--leaf-r);
+}
+@utility leaf-sm {
+  --leaf-r: clamp(1.5rem, 4vw, 2.75rem);
+  border-radius: var(--leaf-r) 0.375rem var(--leaf-r) 0.375rem;
+}
+
+/* The single orchestrated moment: hero content rises in, staggered. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@utility rise {
+  animation: rise 0.85s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 110ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+}
