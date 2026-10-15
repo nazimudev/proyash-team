@@ -83,13 +83,6 @@ export default function HeroSection() {
               sizes="(min-width: 1024px) 560px, 100vw"
               className="leaf aspect-4/5 shadow-2xl shadow-deep/15 sm:aspect-5/4 lg:aspect-4/5"
             />
-            <div className="leaf-sm absolute bottom-0 left-0 w-[42%] max-w-60 bg-paper p-1.5 sm:-left-6 lg:-left-10">
-              <Photo
-                {...images.heroSecondary}
-                sizes="240px"
-                className="leaf-sm aspect-square"
-              />
-            </div>
           </div>
         </div>
       </Container>
