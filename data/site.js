@@ -44,6 +44,7 @@ export const navItems = [
   { id: "gallery", label: "Gallery", href: "/gallery" },
   { id: "our-team", label: "Our Team", href: "/our-team" },
   { id: "contact", label: "Contact", href: "/contact" },
+  { id: "auth", label: "Login", href: "/auth" },
 ];
 
 /**

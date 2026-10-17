@@ -1,215 +1,219 @@
 /**
- * Privacy Policy content and configuration.
+ * PRIVACY POLICY CONTENT — all wording lives here; components contain no policy text.
  *
- * Fill in `policyConfig` with VERIFIED values only. Anything left as null is
- * simply not shown on the public page.
+ * ACCURACY NOTES (read before publishing)
+ *  - The text describes what the website's code actually does today (checked against the project):
+ *    the donation form, the membership application and sign-in pages, the public donor list, and the
+ *    absence of analytics, advertising trackers, cookie banners and browser-storage of form data.
+ *  - Several features (donation submission, membership registration, sign-in) are built but not yet
+ *    connected to a backend. The policy therefore says how information is handled "where these
+ *    features are available". Re-check this page when each backend goes live.
+ *  - Nothing here invents retention periods, certifications, security measures, hosting providers,
+ *    analytics tools, or contact details. Items the organization must still confirm are listed in the
+ *    hand-off summary, not on the public page.
  *
- * Review before publishing (not rendered anywhere):
- *  - effectiveDate / lastUpdated: only set after the organization approves the policy.
- *  - contact details: reuse your existing site config if you have one.
- *  - cookies, analytics, hosting location, retention periods: confirm each
- *    statement in the sections below matches what the site actually does.
- *  - payment methods and anonymous/named donor options: confirm they match the donation form.
+ * DATES: leave null until a real date is confirmed ("YYYY-MM-DD"). They are only shown when set.
  */
 
-export const policyConfig = {
-  organizationName: "Proyash",
-  effectiveDate: null, // e.g. "1 January 2026"
-  lastUpdated: null, // e.g. "1 January 2026"
-  contact: {
-    email: null,
-    phone: null,
-    address: null,
-  },
-  // Adjust to the real routes in your project; set to null to hide a link.
-  routes: {
-    home: "/",
-    contact: "/contact",
-    donation: "/donation",
-    terms: "/terms-of-service",
-    refund: "/refund-policy",
-  },
+export const policyMeta = {
+  title: "Privacy Policy",
+  intro:
+    "This policy explains what personal information Proyash may collect through this website, how it is used and protected, and the choices you have.",
+  effectiveDate: null,
+  lastUpdated: null,
 };
 
+/*
+ * Block types: { p: "paragraph" } | { ul: ["item", ...] } | { note: "highlighted note" } | { h3: "sub-heading" }
+ * Section ids are stable anchors; changing one breaks existing links to it.
+ */
 export const policySections = [
   {
     id: "introduction",
     title: "Introduction",
     blocks: [
-      { type: "p", text: "This Privacy Policy explains how Proyash Songgothon handles information when you visit our website, contact us, or submit donation information. It applies to information handled through this website and to website-related communications." },
-      { type: "p", text: "We aim to collect only the information we need, to explain why we need it, and to handle it with care. By using this website, you acknowledge the practices described here. If you do not agree with them, please do not submit personal information through the website." },
+      { p: "Proyash Songgothon is a social welfare organization based in Madhupur, Tangail, Bangladesh. We respect your privacy and want to be clear about how personal information is handled on this website." },
+      { p: "This policy covers this website, including its donation, membership application and sign-in features. It does not cover other websites or services, such as our Facebook page or your payment provider." },
+      { note: "Some features described in this policy, such as online donation submission, membership applications and member sign-in, may not be available yet. This policy explains how information is handled when they are." },
     ],
   },
   {
     id: "information-we-collect",
     title: "Information We Collect",
     blocks: [
-      { type: "p", text: "The information we collect depends on how you use the website. We describe only the categories below that apply to features the website offers." },
-      { type: "h3", text: "Information you provide" },
-      { type: "ul", items: [
-        "Your name, email address, and phone number.",
-        "Messages you send through the contact form.",
-        "Details you voluntarily submit through other website forms, such as a volunteer inquiry.",
+      { p: "We only collect information that you choose to submit through our forms, plus limited technical information described below. Depending on the feature you use, this may include:" },
+      { h3: "Donation details" },
+      { ul: [
+        "Your name (for named donations).",
+        "The donation amount, the payment method you used, and the transaction ID or reference from your payment.",
+        "Your phone number (required for some payment methods) and your email address (optional).",
+        "A donation purpose and a message (both optional).",
+        "Your choices about whether your name and amount may be shown publicly.",
       ] },
-      { type: "h3", text: "Donation information" },
-      { type: "p", text: "When you submit a donation, we may collect:" },
-      { type: "ul", items: [
-        "The donation amount, selected payment method, and donation purpose.",
-        "A payment transaction reference or transaction ID.",
-        "Your name, if provided, and the contact details needed to verify the donation.",
-        "Whether you want to appear as a named or anonymous donor, and your consent for public display.",
-        "Submission and verification records.",
+      { h3: "Membership application and account details" },
+      { ul: [
+        "Your name in English and, optionally, in Bengali; your father’s and mother’s names; your date of birth; nationality; occupation; marital status; and educational qualification.",
+        "Optional details: religion, gender and blood group.",
+        "Your mobile number, email address, and permanent and present addresses.",
+        "An optional profile photo.",
+        "Your email address and a password for your member account, and your confirmation that you accept the membership conditions, the declaration, and this policy.",
       ] },
-      { type: "p", text: "Payment verification may need limited personal information even if you choose to appear publicly as anonymous." },
-      { type: "note", text: "We never ask donors for a payment PIN, OTP, password, or account login credentials. If anyone asks you for these in connection with a donation, do not share them." },
-      { type: "h3", text: "Technical information" },
-      { type: "p", text: "Our website and hosting environment may automatically record basic technical information, such as browser type, device information, IP address, server logs, request timestamps, and diagnostic information. This helps us keep the website working and secure." },
+      { h3: "Technical information" },
+      { p: "Like most websites, the systems that serve this website may automatically record basic technical information, such as your IP address, browser type, device type, the pages you request, and the time of your visit." },
+      { p: "We do not request information through this website that is not listed here. The website does not currently have a contact form, so messages sent through our Facebook page are handled by Facebook as described in the section on third-party services." },
     ],
   },
   {
     id: "how-we-use-information",
     title: "How We Use Information",
     blocks: [
-      { type: "p", text: "We use information for purposes connected to running the organization and the website, including:" },
-      { type: "ul", items: [
-        "Responding to your inquiries.",
-        "Processing and verifying manual donation submissions.",
-        "Maintaining donation records and financial accountability.",
-        "Respecting donor anonymity and publication preferences.",
-        "Publishing authorized donor records.",
-        "Improving website functionality and security.",
-        "Preventing fraud, duplicate submissions, and misuse.",
-        "Meeting applicable legal obligations.",
+      { p: "We use personal information only for purposes connected with our work, including to:" },
+      { ul: [
+        "Verify donations and record them accurately once they are confirmed.",
+        "Keep records and prepare financial reports that show how contributions are managed. Published reports are intended to show totals and approved records, not private donor details.",
+        "Review membership applications, create and manage member accounts, and let applicants check the status of their own application.",
+        "Contact you about your donation or application when needed.",
+        "Operate, protect and improve the website, and prevent misuse or fraud.",
+        "Meet legal or regulatory obligations that apply to us.",
       ] },
-      { type: "p", text: "We do not use your personal information for unrelated advertising, and we do not sell it." },
     ],
   },
   {
     id: "donations-and-payment-information",
     title: "Donations and Payment Information",
     blocks: [
-      { type: "p", text: "Donations are made through manual payment methods. Depending on what is currently available, these may include bKash, Rocket, Nagad, bank transfer, and other methods the organization enables. Available methods may change over time." },
-      { type: "p", text: "You make the payment through your chosen provider, then submit a transaction reference on the website so we can verify it. This website does not process card payments and does not store payment credentials." },
-      { type: "h3", text: "Donation statuses" },
-      { type: "ul", items: [
-        "Submitted: we have received your donation details but have not checked them.",
-        "Pending verification: we are checking your submission against our payment records.",
-        "Confirmed: the payment has been verified and recorded as a donation.",
-        "Rejected or refunded: the submission could not be verified, or the payment was returned, where applicable.",
+      { p: "Donations are made manually. You send your donation yourself through bKash, Rocket, Nagad, bank transfer or another method we have approved, and then submit your donation details on this website so that we can verify the payment." },
+      { ul: [
+        "This website does not process payments. We do not collect card numbers, and we do not receive money through the website.",
+        "Submitting the donation form does not confirm a donation. A donation is recorded as pending until we have verified the payment, and only then is it treated as confirmed.",
+        "To verify a payment we may compare the details you provide, such as the transaction ID, amount and phone number, with payment records.",
       ] },
-      { type: "p", text: "Submitting a transaction ID does not guarantee that your payment will be confirmed. Authorized personnel may need to access your submission details to verify payments and keep records." },
+      { note: "Never share your payment PIN, OTP, password or account login credentials with anyone. We will never ask for them, and this website never asks for them." },
     ],
   },
   {
     id: "anonymous-donations-and-public-donor-records",
     title: "Anonymous Donations and Public Donor Records",
     blocks: [
-      { type: "p", text: "When you donate, you may be able to choose between a named public donation and an anonymous public donation. Only the options shown on the donation form are available." },
-      { type: "p", text: "If you choose anonymous display:" },
-      { type: "ul", items: [
-        "The public donor list shows “Anonymous Donor” instead of your name.",
-        "Your private details are not shown in public records.",
-        "Phone numbers, email addresses, transaction IDs, payment evidence, and internal verification notes are never included in public donor listings.",
+      { p: "Our supporter list can show confirmed donations that have been approved for publication. You decide how you appear:" },
+      { ul: [
+        "If you choose an anonymous donation, you appear publicly as “Anonymous Donor”.",
+        "If you make a named donation, your name is shown publicly only if you choose to allow it. This choice is off by default.",
+        "Your donation amount is shown publicly only if you choose to allow it. This choice is also off by default.",
+        "Your message is not displayed publicly.",
       ] },
-      { type: "p", text: "If you choose a named donation, your name may appear in the public donor list, based on the consent you give when submitting the form." },
-      { type: "p", text: "Anonymity in public display does not mean we cannot know who you are. Authorized personnel may still see your identity for verification and recordkeeping, and your payment provider will have its own records of the transaction. We cannot promise complete anonymity." },
+      { p: "Private details, including phone numbers, email addresses, transaction IDs, payment evidence and internal verification notes, are not meant to be shown on the public list." },
+      { h3: "What anonymous does and does not mean" },
+      { p: "Anonymous refers to how you appear on the public list. We may still need limited private information to verify your payment and keep accurate records, and that information is intended to be available only to authorized people." },
+      { p: "We cannot promise complete anonymity. Your payment provider or bank keeps its own records, and people who already know about your donation may be able to recognise it from details such as the amount or date if you allow those to be shown." },
     ],
   },
   {
     id: "cookies-and-similar-technologies",
     title: "Cookies and Similar Technologies",
     blocks: [
-      { type: "p", text: "Cookies are small files stored on your device. This website uses only cookies and similar technologies that are necessary for it to work, such as maintaining basic site functionality and security." },
-      { type: "p", text: "We do not use advertising or tracking cookies. If we introduce analytics or other optional tools in the future, we will update this policy to say what they are and why we use them. You can control or delete cookies through your browser settings, though blocking essential cookies may affect how the site works." },
+      { ul: [
+        "This website does not currently use analytics tools, advertising trackers, or tracking pixels.",
+        "The website does not store your form entries or passwords in your browser’s local storage or session storage.",
+        "When member sign-in is available, the sign-in system may use cookies or similar technology that are needed to keep you signed in.",
+      ] },
+      { p: "Your browser lets you view and delete cookies. Blocking cookies that are needed for sign-in may prevent you from signing in." },
+      { p: "If we introduce analytics or other tracking technologies in the future, we will update this policy first." },
     ],
   },
   {
     id: "information-sharing-and-disclosure",
     title: "Information Sharing and Disclosure",
     blocks: [
-      { type: "p", text: "We share personal information only where appropriate. This may include sharing with:" },
-      { type: "ul", items: [
-        "Authorized personnel who verify donations or respond to inquiries.",
-        "Hosting and infrastructure providers that help us operate the website.",
-        "Payment service providers involved in the manual payment you made.",
-        "Other service providers needed to run genuine website features.",
-        "Relevant authorities, where we are legally required to disclose information.",
+      { p: "We do not publish your private donation or membership details. Your information may be accessed or shared in these limited ways:" },
+      { ul: [
+        "Authorized Proyash personnel who handle donations, membership applications and the website.",
+        "Service providers that host the website and run the systems that store submitted information.",
+        "Payment providers and banks involved in a donation, which handle your payment under their own terms. We may refer to their records to verify a payment.",
+        "Public display, only as described in the section on anonymous donations and public donor records and only in line with your choices.",
+        "Authorities or other parties when we are required to do so by law.",
       ] },
-      { type: "p", text: "We do not sell personal information. Because third-party providers are involved in running the website and in payments, we cannot say that your information is never shared with anyone outside the organization." },
     ],
   },
   {
     id: "data-retention",
     title: "Data Retention",
     blocks: [
-      { type: "p", text: "We keep information only for as long as reasonably necessary for the purposes it was collected for, and as required by applicable obligations and legitimate recordkeeping needs. Different kinds of information may be kept for different lengths of time, including:" },
-      { type: "ul", items: [
-        "Contact messages.",
-        "Donation submissions.",
-        "Confirmed donation records.",
-        "Financial accounting records.",
-        "Technical and security logs.",
-      ] },
-      { type: "p", text: "Deletion may be limited where we must keep records for accounting, security, dispute-resolution, or legal purposes. Where we can delete information on request, we will do so as described in the section on your privacy choices." },
+      { p: "We have not set fixed retention periods. We keep personal information only for as long as it is reasonably needed for the purposes in this policy, for example while verifying a donation, while an application or membership is active, or where we need to keep accurate financial and accountability records, or where the law requires it." },
+      { p: "Records of confirmed donations and approved expenses may need to be kept for longer so that our financial reporting stays accurate. When information is no longer needed, we intend to delete it or remove details that identify you." },
     ],
   },
   {
     id: "data-security",
     title: "Data Security",
     blocks: [
-      { type: "p", text: "We take reasonable steps to protect information, such as restricting access to payment verification records and private donor information to authorized personnel, and using secure connections (HTTPS) for the website." },
-      { type: "p", text: "Reasonable safeguards reduce risk, but no method of internet transmission or electronic storage can guarantee absolute security. Please contact us promptly if you believe your information has been misused." },
+      { p: "We aim to protect personal information with reasonable measures, including:" },
+      { ul: [
+        "Limiting access to private donor and applicant information to authorized people.",
+        "Keeping private details separate from the records shown on the public pages.",
+        "Intending to store account passwords only in protected (hashed) form, never as readable text.",
+        "Never asking you for payment PINs, OTPs or passwords.",
+      ] },
+      { p: "No website or method of transmission is completely secure, so we cannot guarantee absolute security. Please use a strong password that you do not use elsewhere, and keep it private." },
     ],
   },
   {
     id: "your-privacy-choices-and-rights",
     title: "Your Privacy Choices and Rights",
     blocks: [
-      { type: "p", text: "You can contact us to:" },
-      { type: "ul", items: [
-        "Ask for access to the personal information we hold about you.",
-        "Ask us to correct inaccurate details.",
-        "Ask questions about how your information is used.",
-        "Ask us to remove or change how you appear in the public donor list.",
-        "Ask us to delete your information, where we are permitted to.",
+      { h3: "Choices you can make when you use the website" },
+      { ul: [
+        "Choose a named or anonymous donation, and whether your name and amount may be shown publicly.",
+        "Leave optional fields blank, including your email address, donation message, religion, gender, blood group and profile photo.",
       ] },
-      { type: "p", text: "We cannot always fulfill every request. Verified financial records may need to be kept for recordkeeping even if you change your public display preference. We may need to confirm your identity before acting on a request. Requests are handled by contacting us directly; there is no automated privacy settings page." },
+      { h3: "Requests you can make to us" },
+      { p: "You can contact us to ask what personal information we hold about you, to ask us to correct inaccurate information, to ask us to delete information or restrict how we use it, or to change how a donation is shown on the public list." },
+      { p: "We will consider each request in line with applicable law. We may need to confirm your identity first, and we may need to keep some records, such as confirmed donation and financial records, even after a request." },
+      { note: "The website does not currently offer automatic self-service deletion or privacy settings. Requests are handled by contacting us." },
     ],
   },
   {
     id: "childrens-privacy",
-    title: "Children's Privacy",
+    title: "Children’s Privacy",
     blocks: [
-      { type: "p", text: "This website is not intended to collect personal information directly from children. If our activities involve children or educational support, we avoid publishing children's names, identifying details, or photographs without appropriate authorization and consent." },
-      { type: "p", text: "If you are a parent or guardian, or an appropriate representative, and have a privacy concern about a child's information, please contact us using the details at the end of this policy." },
+      { p: "This website is intended for adults. We do not knowingly want personal information from children without the involvement of a parent or guardian, and we encourage anyone under 18 to ask a parent or guardian before submitting information." },
+      { p: "When we publish photographs of our activities, we intend to publish identifiable photographs, especially of children, only with appropriate consent, and to avoid publishing personal details about children." },
+      { p: "If you believe we hold or have published information about a child that should be removed, please contact us and we will review your request." },
     ],
   },
   {
     id: "third-party-services-and-external-links",
     title: "Third-Party Services and External Links",
     blocks: [
-      { type: "p", text: "Our website may link to external platforms, such as social media sites and payment providers. Those services have their own privacy practices and terms, and Proyash Songgothon does not control them. We encourage you to read their policies before sharing information with them." },
+      { p: "This website links to other services that we do not control, including our official Facebook page. When you follow a link, you leave this website and the other service’s own privacy practices apply. This includes any messages you send us through Facebook." },
+      { p: "bKash, Rocket, Nagad and banks are separate companies. They collect and use your information under their own terms when you make a payment." },
     ],
   },
   {
     id: "international-data-transfers",
     title: "International Data Transfers",
     blocks: [
-      { type: "p", text: "Our hosting and service providers may process information in countries other than where you live, depending on how they operate. Where this happens, information may be transferred and handled under the laws that apply to those providers. We do not guarantee that all information stays within Bangladesh." },
+      { p: "Proyash Songgothon is based in Bangladesh. The service providers that host this website and its systems may store or process information in other countries. Where that happens, your information may be handled under the laws of those countries. We aim to use service providers that handle information responsibly." },
     ],
   },
   {
     id: "changes-to-this-policy",
     title: "Changes to This Policy",
     blocks: [
-      { type: "p", text: "We may update this policy when our website features, data practices, or legal obligations change. When we do, we will update the “Last updated” date shown at the top of this page. Please review this page from time to time." },
+      { p: "We may update this policy from time to time, for example when we add or change a feature. The latest version is always the one on this page, and any dates shown at the top show when it took effect or was last updated. Please check this page periodically." },
     ],
   },
   {
     id: "contact-us",
     title: "Contact Us",
     blocks: [
-      { type: "p", text: "If you have questions about this Privacy Policy or how your information is handled, please contact Proyash Songgothon using the details below." },
+      { p: "If you have a question about this policy or want to make a privacy request, you can reach us through our official Facebook page or the Contact section of our website." },
+      { p: "We have not published a dedicated email address or phone number for privacy requests. If one becomes available, it will be listed here." },
     ],
   },
 ];
+
+export const policyContact = {
+  title: "Questions about your privacy?",
+  text: "Get in touch with Proyash Songgothon and we will review your question or request.",
+};

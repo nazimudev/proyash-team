@@ -1,47 +1,21 @@
-import Link from "next/link";
-import styles from "./privacy.module.css";
+import { MapPin } from "lucide-react";
+import Button from "@/components/ui/Button";
+import { site, links } from "@/data/site";
 
-export default function PolicyContactCTA({ config }) {
-  const { contact, routes } = config;
-  const hasDetails = contact.email || contact.phone || contact.address;
-  const related = [
-    [routes.donation, "Donate"],
-    [routes.terms, "Terms of Service"],
-    [routes.refund, "Refund Policy"],
-  ].filter(([href]) => Boolean(href));
-
+/** Closing contact box. Uses only configured details: the location, the Facebook page and the homepage Contact section. */
+export default function PolicyContactCTA({ title, text }) {
   return (
-    <div className={styles.contactCard}>
-      <h3>Questions about your privacy?</h3>
-      <p>
-        If you have questions about this Privacy Policy or how your information is handled,
-        please contact {config.organizationName}.
+    <aside aria-labelledby="policy-contact-heading" className="mt-14 rounded-2xl border border-forest/15 bg-mist p-7 sm:p-9">
+      <h2 id="policy-contact-heading" className="text-2xl font-extrabold tracking-tight text-ink">{title}</h2>
+      <p className="mt-2 max-w-xl text-muted">{text}</p>
+      <p className="mt-4 flex items-center gap-2 text-sm font-semibold text-ink">
+        <MapPin size={16} aria-hidden="true" className="text-forest" />
+        {site.location}
       </p>
-      {hasDetails && (
-        <ul className={styles.contactList}>
-          {contact.email && (
-            <li>
-              Email: <a href={`mailto:${contact.email}`}>{contact.email}</a>
-            </li>
-          )}
-          {contact.phone && <li>Phone: {contact.phone}</li>}
-          {contact.address && <li>Address: {contact.address}</li>}
-        </ul>
-      )}
-      {routes.contact && (
-        <Link href={routes.contact} className={styles.button}>
-          Contact us
-        </Link>
-      )}
-      {related.length > 0 && (
-        <div className={styles.related}>
-          {related.map(([href, label]) => (
-            <Link key={href} href={href}>
-              {label}
-            </Link>
-          ))}
-        </div>
-      )}
-    </div>
+      <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+        <Button href="/contact">Contact Us</Button>
+        <Button {...links.facebook} variant="outline">Visit our Facebook page</Button>
+      </div>
+    </aside>
   );
 }
