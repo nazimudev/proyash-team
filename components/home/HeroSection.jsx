@@ -81,7 +81,7 @@ export default function HeroSection() {
               {...images.hero}
               priority
               sizes="(min-width: 1024px) 560px, 100vw"
-              className="leaf aspect-4/5 shadow-2xl shadow-deep/15 sm:aspect-5/4 lg:aspect-4/5"
+              className="leaf aspect-4/3 object-contain shadow-2xl shadow-deep/15 sm:aspect-16/10 lg:aspect-4/3"
             />
           </div>
         </div>

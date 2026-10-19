@@ -13,6 +13,8 @@ import {
   MessageSquare,
   Settings,
   Globe,
+  BangladeshiTaka,
+  ChartBarDecreasing,
 } from "lucide-react";
 
 export const adminNavigation = [
@@ -89,9 +91,14 @@ export const adminNavigation = [
         exact: true,
       },
       {
-        label: "Pending Verification",
-        href: "/admin/donations/pending",
-        icon: UserRoundCheck,
+        label: "Expences",
+        href: "/admin/donations/expences",
+        icon: ChartBarDecreasing,
+      },
+      {
+        label: "Payment Method",
+        href: "/admin/donations/donation-settings",
+        icon: BangladeshiTaka,
       },
     ],
   },
@@ -102,8 +109,8 @@ export const adminNavigation = [
     exact: true,
   },
   {
-    label: "Team",
-    href: "/admin/team",
+    label: "Founder",
+    href: "/admin/founder",
     icon: UserCog,
     exact: true,
   },
@@ -123,7 +130,7 @@ export const adminNavigation = [
         icon: HandCoins,
         exact: true,
       },
-    ]
+    ],
   },
   {
     label: "Settings",

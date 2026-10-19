@@ -81,8 +81,7 @@ export const projects = [
 export const projectsHero = {
   eyebrow: "Our projects",
   title: "Turning Our Purpose Into Action",
-  text:
-    "Explore the initiatives and projects through which Proyash Songgothon aims to support people in need, encourage educational opportunities, and promote a greener community.",
+  text: "Explore the initiatives and projects through which Proyash Songgothon aims to support people in need, encourage educational opportunities, and promote a greener community.",
   cta: { label: "Explore Our Projects", href: "#projects-list" },
 };
 
@@ -94,6 +93,5 @@ export const projectsEmpty = {
 
 export const projectsCta = {
   title: "Help Us Create Meaningful Change",
-  text:
-    "Every meaningful initiative begins with people who care. Join Proyash Songgothon in supporting communities, encouraging education, and caring for the environment.",
+  text: "Every meaningful initiative begins with people who care. Join Proyash Songgothon in supporting communities, encouraging education, and caring for the environment.",
 };

@@ -7,21 +7,22 @@ import { usePathname } from "next/navigation";
 import { Leaf, ChevronDown } from "lucide-react";
 
 import { adminNavigation, isActivePath } from "@/data/adminNavigation";
+import Logo from "@/components/ui/Logo";
 
 export function AdminBrand() {
   return (
-    <Link href="/admin" className="flex items-center gap-3">
-      <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-green-600 text-white">
-        <Leaf className="h-5 w-5" aria-hidden="true" />
+    <div className="flex items-center gap-3">
+      <span className="flex h-9 w-9 items-center justify-center rounded-lg text-white">
+        <Logo />
       </span>
 
       <span className="leading-tight">
         <span className="block text-sm font-semibold text-gray-900">
-          Proyash Songgothon
+          Proyash
         </span>
         <span className="block text-xs text-gray-500">Admin panel</span>
       </span>
-    </Link>
+    </div>
   );
 }
 
@@ -54,7 +55,7 @@ export function AdminNavLinks({ onNavigate }) {
   }
 
   return (
-    <nav aria-label="Admin" className="flex flex-col gap-1">
+    <nav aria-label="Admin" className="flex flex-col gap-1 bg-white">
       {adminNavigation.map((item) => {
         const Icon = item.icon;
         const hasChildren = Boolean(item.children?.length);

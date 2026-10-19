@@ -54,7 +54,7 @@ export const navItems = [
  */
 export const images = {
   hero: {
-    src: "/images/hero.png",
+    src: "/images/hero.JPG",
     alt: "Community volunteers planting young trees together",
   },
   heroSecondary: {

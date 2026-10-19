@@ -1,9 +1,12 @@
+import HomeHeroSection from '@/components/admin/home/HomeHeroSection';
 import React from 'react'
 
-const HomeHeroSection = () => {
+const HomePageSection = () => {
   return (
-    <div>HomeHeroSection</div>
+    <>
+      <HomeHeroSection />
+    </>
   )
 }
 
-export default HomeHeroSection;
+export default HomePageSection;
