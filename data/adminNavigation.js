@@ -46,23 +46,23 @@ export const adminNavigation = [
       },
     ],
   },
-  {
-    label: "Volunteers",
-    icon: HeartHandshake,
-    children: [
-      {
-        label: "All Volunteers",
-        href: "/admin/volunteers",
-        icon: HeartHandshake,
-        exact: true,
-      },
-      {
-        label: "Volunteer Requests",
-        href: "/admin/volunteers/requests",
-        icon: ClipboardList,
-      },
-    ],
-  },
+  // {
+  //   label: "Volunteers",
+  //   icon: HeartHandshake,
+  //   children: [
+  //     {
+  //       label: "All Volunteers",
+  //       href: "/admin/volunteers",
+  //       icon: HeartHandshake,
+  //       exact: true,
+  //     },
+  //     {
+  //       label: "Volunteer Requests",
+  //       href: "/admin/volunteers/requests",
+  //       icon: ClipboardList,
+  //     },
+  //   ],
+  // },
   {
     label: "Projects",
     icon: FolderKanban,
