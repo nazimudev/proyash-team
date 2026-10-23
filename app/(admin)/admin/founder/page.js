@@ -1,13 +1,9 @@
-import PageHeader from "@/components/admin/ui/PageHeader";
-import EmptyState from "@/components/admin/ui/EmptyState";
+import FounderManagementPage from "@/components/admin/founders/FounderManagementPage";
 
-export const metadata = { title: "Team Management | Proyash Admin" };
+export const metadata = { title: "Founder Management | Proyash Admin" };
 
-export default function TeamPage() {
-  return (
-    <>
-      <PageHeader title="Team Management" description="Manage the team members shown on the public site." />
-      <EmptyState title="Team management is not built yet" description="Team profiles will appear here once the API is connected." />
-    </>
-  );
+// SECURITY: this page and every founder write must be protected by the backend (authenticated administrators only).
+// Nothing in the frontend is an authorization check.
+export default function AdminFoundersPage() {
+  return <FounderManagementPage />;
 }
