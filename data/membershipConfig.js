@@ -1,4 +1,5 @@
 import { donationConfig } from "@/data/donationConfig";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 /**
  * MEMBERSHIP / AUTH CONFIGURATION (public, non-secret).
@@ -33,20 +34,14 @@ import { donationConfig } from "@/data/donationConfig";
  * Session/cookie handling is whatever the Laravel setup uses; requests send credentials via `credentials`.
  * Never put tokens, passwords or secrets in this file.
  */
+
+
 export const membershipConfig = {
-  endpoints: { apply: "", login: "", status: "" },
+  endpoints: {
+    apply: API_URL ? `${API_URL}/membership/apply` : "",
+    login: API_URL ? `${API_URL}/login` : "",
+    status: API_URL ? `${API_URL}/membership/status` : "",
+  },
   credentials: "include",
-
-  /**
-   * Route of the Member Dashboard. NO dashboard exists yet, so this is null. Even when it exists, the
-   * BACKEND must enforce access on every protected request (a frontend redirect is not authorization).
-   */
-  memberDashboardHref: null,
-
-  /** No Privacy Policy or Terms pages exist yet. Set their routes when published and the form will link to them. */
-  privacyPolicyHref: donationConfig.privacyPolicyHref,
-  termsHref: null,
-
-  photo: { maxBytes: 2 * 1024 * 1024, types: ["image/jpeg", "image/png", "image/webp"], labels: "JPG, PNG or WebP" },
-  password: { minLength: 8, maxLength: 128 },
+  memberDashboardHref: "/member",
 };

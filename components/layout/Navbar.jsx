@@ -6,13 +6,22 @@ import { Menu, X } from "lucide-react";
 import Container from "@/components/ui/Container";
 import Logo from "@/components/ui/Logo";
 import Button from "@/components/ui/Button";
-import { navItems, links } from "@/data/site";
-import { usePathname } from "next/navigation";
+import { getNavItems, links } from "@/data/site";
+import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/lib/auth";
+
+
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
+  const {loggedIn, role} = useAuth();
+  const items = getNavItems({ loggedIn, role });
+
 
   // Close the mobile menu with Escape.
   useEffect(() => {
@@ -37,7 +46,7 @@ export default function Navbar() {
 
         <nav aria-label="Primary" className="hidden lg:block">
           <ul className="flex items-center gap-1">
-            {navItems.map((item) => {
+            {items.map((item) => {
               const isActive =
                 item.href === "/"
                   ? pathname === "/"
@@ -45,24 +54,27 @@ export default function Navbar() {
                     pathname.startsWith(`${item.href}/`);
 
               return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    aria-current={isActive ? "page" : undefined}
-                    className={`relative block rounded-md px-3.5 py-2 text-[15px] font-semibold transition-colors duration-200 ${
-                      isActive ? "text-forest" : "text-ink/80 hover:text-forest"
-                    }`}
-                  >
-                    {item.label}
-
-                    <span
-                      aria-hidden="true"
-                      className={`absolute inset-x-3.5 -bottom-0.5 h-0.5 origin-left rounded-full bg-fresh transition-transform duration-300 ${
-                        isActive ? "scale-x-100" : "scale-x-0"
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      aria-current={isActive ? "page" : undefined}
+                      className={`relative block rounded-md px-3.5 py-2 text-[15px] font-semibold transition-colors duration-200 ${
+                        isActive
+                          ? "text-forest"
+                          : "text-ink/80 hover:text-forest"
                       }`}
-                    />
-                  </Link>
-                </li>
+                    >
+                      {item.label}
+
+                      <span
+                        aria-hidden="true"
+                        className={`absolute inset-x-3.5 -bottom-0.5 h-0.5 origin-left rounded-full bg-fresh transition-transform duration-300 ${
+                          isActive ? "scale-x-100" : "scale-x-0"
+                        }`}
+                      />
+                    </Link>
+                  </li>
+
               );
             })}
           </ul>
@@ -110,7 +122,7 @@ export default function Navbar() {
           <Container className="py-4">
             <nav aria-label="Mobile">
               <ul>
-                {navItems.map((item) => {
+                {items.map((item) => {
                   const isActive =
                     item.href === "/"
                       ? pathname === "/"
@@ -118,21 +130,22 @@ export default function Navbar() {
                         pathname.startsWith(`${item.href}/`);
 
                   return (
-                    <li
-                      key={item.href}
-                      className="border-b border-forest/10 last:border-0"
-                    >
-                      <Link
-                        href={item.href}
-                        onClick={() => setOpen(false)}
-                        aria-current={isActive ? "page" : undefined}
-                        className={`flex min-h-12 items-center text-lg font-semibold ${
-                          isActive ? "text-forest" : "text-ink"
-                        }`}
+                      <li
+                        key={item.href}
+                        className="border-b border-forest/10 last:border-0"
                       >
-                        {item.label}
-                      </Link>
-                    </li>
+                        <Link
+                          href={item.href}
+                          onClick={() => setOpen(false)}
+                          aria-current={isActive ? "page" : undefined}
+                          className={`flex min-h-12 items-center text-lg font-semibold ${
+                            isActive ? "text-forest" : "text-ink"
+                          }`}
+                        >
+                          {item.label}
+                        </Link>
+                      </li>
+
                   );
                 })}
               </ul>

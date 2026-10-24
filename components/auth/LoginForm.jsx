@@ -8,6 +8,9 @@ import PasswordInput from "@/components/ui/PasswordInput";
 import StatusResult from "@/components/membership/StatusResult";
 import { loginMember } from "@/lib/membershipService";
 import { loginClosedNotice } from "@/data/membership";
+import { useRouter } from "next/navigation";
+import { saveAuth } from "@/lib/auth";
+
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const failureText = {
@@ -33,6 +36,8 @@ export default function LoginForm({ signInOpen }) {
   const [status, setStatus] = useState(null);
   const busy = useRef(false);
 
+  const router = useRouter();
+
   async function onSubmit(e) {
     e.preventDefault();
     if (busy.current || !signInOpen) return;
@@ -51,8 +56,15 @@ export default function LoginForm({ signInOpen }) {
     busy.current = false;
     setPassword(""); // never keep the password around
     if (res.ok) {
-      setStatus(res.status);
-      setPhase("done");
+      saveAuth(res.token, res.user.role);
+      localStorage.setItem("auth_user", JSON.stringify(res.user));
+
+      const redirectTo = res.user.role === "admin" ? "/admin" : "/member";
+      router.replace(redirectTo);
+      return;
+
+
+
     } else {
       setFailure(res.code);
       setPhase("error");

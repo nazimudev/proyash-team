@@ -47,6 +47,18 @@ export const navItems = [
   { id: "auth", label: "Login", href: "/auth" },
 ];
 
+export const roleDashboard = { admin: "/admin", member: "/member" };
+export const dashboardFor = (role) => roleDashboard[role] ?? "/member";
+
+/** Login thakle "auth" item-ta "Dashboard" hoye jay, baki item gulo ager moto. */
+export function getNavItems({ loggedIn, role }) {
+  return navItems.map((item) =>
+    item.id === "auth" && loggedIn
+      ? { id: "dashboard", label: "Dashboard", href: dashboardFor(role) }
+      : item,
+  );
+}
+
 /**
  * PHOTOGRAPHY — TEMPORARY SLOTS.
  * Drop real files at these paths inside /public/images (see README).
