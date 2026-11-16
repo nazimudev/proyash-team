@@ -1,165 +1,262 @@
-import Link from "next/link";
-import { TreePine, MapPin, CalendarDays, ShieldCheck, ExternalLink, CircleCheck } from "lucide-react";
-import Container from "@/components/ui/Container";
+import {
+  MapPin,
+  CalendarDays,
+  Wallet,
+  FolderOpen,
+  Image as ImageIcon,
+  Target,
+  TreePine,
+} from "lucide-react";
+
 import Photo from "@/components/ui/Photo";
 import StatusBadge from "@/components/projects/StatusBadge";
-import ProjectTimeline from "@/components/projects/ProjectTimeline";
 
-function Block({ id, title, children }) {
+const STORAGE_URL =
+  process.env.NEXT_PUBLIC_STORAGE_URL || "http://127.0.0.1:8000/storage";
+
+function getImageUrl(path) {
+  if (!path) return null;
+
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path;
+  }
+
+  return `${STORAGE_URL.replace(/\/+$/, "")}/${path.replace(/^\/+/, "")}`;
+}
+
+function formatDate(date) {
+  if (!date) return null;
+
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date(date));
+}
+
+function formatMoney(amount) {
+  if (amount === null || amount === undefined || amount === "") {
+    return "Not specified";
+  }
+
+  return `৳${Number(amount).toLocaleString("en-BD")}`;
+}
+
+function SectionHeading({ icon: Icon, title, description }) {
   return (
-    <section aria-labelledby={`${id}-heading`} className="scroll-mt-24">
-      <h2 id={`${id}-heading`} className="text-2xl font-extrabold tracking-tight text-ink sm:text-3xl">{title}</h2>
-      <div className="mt-5">{children}</div>
+    <div className="mb-6">
+      <div className="flex items-center gap-2 text-forest">
+        <Icon size={19} />
+        <h2 className="text-xl font-extrabold tracking-tight text-ink">
+          {title}
+        </h2>
+      </div>
+      {description && (
+        <p className="mt-2 text-sm leading-relaxed text-muted">{description}</p>
+      )}
+    </div>
+  );
+}
+
+export default function ProjectDetails({ project: p }) {
+  if (!p) return null;
+
+  const images = Array.isArray(p.images) ? p.images : [];
+
+  const gallery = images
+    .filter((image) => image.image_path)
+    .sort((a, b) => a.sort_order - b.sort_order);
+
+  const startDate = formatDate(p.start_date);
+  const endDate = formatDate(p.expected_end_date);
+
+  const statusLabels = {
+    planned: "Planned",
+    in_progress: "In Progress",
+    complete: "Completed",
+    on_hold: "On Hold",
+    cancelled: "Cancelled",
+  };
+
+  const progress = Math.min(100, Math.max(0, Number(p.progress) || 0));
+
+  return (
+    <section className="py-12 sm:py-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Project Hero Image */}
+        <div className="overflow-hidden rounded-3xl border border-forest/10 bg-mist">
+          <Photo
+            src={getImageUrl(p.cover_image)}
+            alt={p.name || "Project cover"}
+            sizes="100vw"
+            className="aspect-16/7 w-full"
+            fallback={
+              <TreePine
+                size={48}
+                strokeWidth={1.2}
+                className="text-forest/40"
+              />
+            }
+          />
+        </div>
+
+        {/* Project Header */}
+        <div className="mt-8 grid gap-8 lg:grid-cols-12">
+          <div className="lg:col-span-8">
+            <div className="flex flex-wrap items-center gap-3">
+              {p.category?.name && (
+                <span className="rounded-full bg-mist px-4 py-1.5 text-xs font-bold text-forest">
+                  {p.category.name}
+                </span>
+              )}
+
+              <StatusBadge
+                status={p.status}
+                label={statusLabels[p.status] || p.status}
+              />
+            </div>
+
+            <h1 className="mt-5 text-3xl font-black leading-tight tracking-tight text-ink sm:text-4xl lg:text-5xl">
+              {p.name}
+            </h1>
+
+            {p.location && (
+              <div className="mt-5 flex items-center gap-2 text-sm text-muted">
+                <MapPin size={17} className="text-forest" />
+                {p.location}
+              </div>
+            )}
+
+            {/* Project Progress */}
+            <div className="mt-8 rounded-2xl border border-forest/10 bg-white p-5 shadow-sm">
+              <div className="flex items-center justify-between gap-3">
+                <span className="font-bold text-ink">Project Progress</span>
+                <span className="text-lg font-extrabold text-forest">
+                  {progress}%
+                </span>
+              </div>
+
+              <div className="mt-4 h-2.5 overflow-hidden rounded-full bg-mist">
+                <div
+                  className="h-full rounded-full bg-forest transition-all"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Project Information Sidebar */}
+          <aside className="lg:col-span-4">
+            <div className="rounded-2xl border border-forest/10 bg-white p-6 shadow-sm">
+              <h2 className="text-lg font-extrabold text-ink">
+                Project Information
+              </h2>
+
+              <div className="mt-6 space-y-6">
+                <InfoItem
+                  icon={CalendarDays}
+                  label="Start Date"
+                  value={startDate || "Not specified"}
+                />
+
+                <InfoItem
+                  icon={CalendarDays}
+                  label="Expected Completion"
+                  value={endDate || "Not specified"}
+                />
+
+                <InfoItem
+                  icon={FolderOpen}
+                  label="Category"
+                  value={p.category?.name || "Not specified"}
+                />
+
+                <InfoItem
+                  icon={Wallet}
+                  label="Allocated Budget"
+                  value={formatMoney(p.allocated_budget)}
+                />
+
+                {p.funding_source && (
+                  <InfoItem
+                    icon={Target}
+                    label="Funding Source"
+                    value={p.funding_source}
+                  />
+                )}
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        {/* Project Overview */}
+        {p.description && (
+          <div className="mt-16 max-w-4xl">
+            <SectionHeading
+              icon={FolderOpen}
+              title="Project Overview"
+              description="Learn more about this community initiative."
+            />
+
+            <div className="whitespace-pre-line text-base leading-8 text-muted sm:text-lg">
+              {p.description}
+            </div>
+          </div>
+        )}
+
+        {/* Project Gallery */}
+        {gallery.length > 0 && (
+          <div className="mt-16">
+            <SectionHeading
+              icon={ImageIcon}
+              title="Project Gallery"
+              description="Moments and memories from this project."
+            />
+
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {gallery.map((image) => (
+                <div
+                  key={image.id}
+                  className="group overflow-hidden rounded-2xl border border-forest/10 bg-white"
+                >
+                  <Photo
+                    src={getImageUrl(image.image_path)}
+                    alt={image.alt_text || image.title || p.name}
+                    sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                    className="aspect-4/3 w-full transition-transform duration-500 group-hover:scale-[1.03]"
+                    fallback={
+                      <ImageIcon size={32} className="text-forest/40" />
+                    }
+                  />
+
+                  {image.title && (
+                    <div className="p-4">
+                      <p className="font-semibold text-ink">{image.title}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </section>
   );
 }
 
-/** Every section renders only when the project has documented content for it. */
-export default function ProjectDetails({ project: p }) {
-  const hasTimeline = p.startLabel || p.completionLabel || p.milestones.length > 0;
-  const hasSidebar = p.location || hasTimeline;
-
+function InfoItem({ icon: Icon, label, value }) {
   return (
-    <>
-      <section className="bg-paper pb-10 pt-28 sm:pt-32">
-        <Container>
-          <nav aria-label="Breadcrumb">
-            <ol className="flex flex-wrap items-center gap-2 text-sm">
-              <li><Link href="/" className="font-semibold text-forest underline-offset-4 hover:underline">Home</Link></li>
-              <li aria-hidden="true" className="text-muted">/</li>
-              <li><Link href="/projects" className="font-semibold text-forest underline-offset-4 hover:underline">Projects</Link></li>
-              <li aria-hidden="true" className="text-muted">/</li>
-              <li aria-current="page" className="font-semibold text-muted">{p.title}</li>
-            </ol>
-          </nav>
+    <div className="flex items-start gap-3">
+      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-mist text-forest">
+        <Icon size={19} />
+      </div>
 
-          <div className="mt-8 flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-mist px-3 py-1 text-xs font-bold text-forest">{p.categoryLabel}</span>
-            <StatusBadge status={p.status} label={p.statusLabel} />
-            {p.isVerified && (
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-forest">
-                <ShieldCheck size={14} aria-hidden="true" /> Verified
-              </span>
-            )}
-          </div>
-          <h1 className="mt-4 max-w-3xl text-balance text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-5xl">{p.title}</h1>
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">{p.summary}</p>
-          {(p.location || p.dateLabel) && (
-            <ul className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-muted">
-              {p.location && <li className="flex items-center gap-2"><MapPin size={16} aria-hidden="true" className="text-forest" />{p.location}</li>}
-              {p.dateLabel && <li className="flex items-center gap-2"><CalendarDays size={16} aria-hidden="true" className="text-forest" />{p.dateLabel}</li>}
-            </ul>
-          )}
-
-          <div className="group mt-10">
-            <Photo
-              src={p.cover?.src}
-              alt={p.cover?.alt ?? ""}
-              priority
-              sizes="(min-width: 1280px) 1200px, 100vw"
-              className="aspect-[16/9] rounded-2xl"
-              fallback={<TreePine size={44} strokeWidth={1.25} aria-hidden="true" className="text-forest/40" />}
-            />
-          </div>
-        </Container>
-      </section>
-
-      <section className="bg-white py-16 sm:py-20">
-        <Container>
-          <div className={`grid gap-12 ${hasSidebar ? "lg:grid-cols-12 lg:gap-14" : ""}`}>
-            <div className={`space-y-14 ${hasSidebar ? "lg:col-span-8" : "max-w-3xl"}`}>
-              {p.paragraphs.length > 0 && (
-                <Block id="overview" title="Project Overview">
-                  <div className="space-y-4 text-lg leading-relaxed text-muted">
-                    {p.paragraphs.map((t) => <p key={t}>{t}</p>)}
-                  </div>
-                </Block>
-              )}
-
-              {p.objectives.length > 0 && (
-                <Block id="objectives" title="Objectives">
-                  <ul className="space-y-3">
-                    {p.objectives.map((o) => (
-                      <li key={o} className="flex items-start gap-3 text-ink">
-                        <CircleCheck size={20} aria-hidden="true" className="mt-1 shrink-0 text-forest" />{o}
-                      </li>
-                    ))}
-                  </ul>
-                </Block>
-              )}
-
-              {p.activities.length > 0 && (
-                <Block id="activities" title="Activities">
-                  <ul className="divide-y divide-forest/10 rounded-2xl border border-forest/10">
-                    {p.activities.map((a) => (
-                      <li key={a.title} className="p-5">
-                        <h3 className="font-extrabold text-ink">{a.title}</h3>
-                        {a.dateLabel && <p className="text-sm font-semibold text-muted">{a.dateLabel}</p>}
-                        {a.description && <p className="mt-1.5 text-muted">{a.description}</p>}
-                      </li>
-                    ))}
-                  </ul>
-                </Block>
-              )}
-
-              {p.outcomes.length > 0 && (
-                <Block id="outcomes" title="Outcomes">
-                  <ul className="space-y-4">
-                    {p.outcomes.map((o) => (
-                      <li key={o.title} className="rounded-2xl bg-mist p-5">
-                        <h3 className="font-extrabold text-ink">{o.title}</h3>
-                        {o.description && <p className="mt-1.5 text-muted">{o.description}</p>}
-                        {o.evidenceUrl && (
-                          <a
-                            href={o.evidenceUrl}
-                            {...(o.evidenceUrl.startsWith("/") ? {} : { target: "_blank", rel: "noopener noreferrer" })}
-                            className="mt-2 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-forest underline decoration-forest/30 underline-offset-4 hover:decoration-forest"
-                          >
-                            View supporting record <ExternalLink size={14} aria-hidden="true" />
-                          </a>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </Block>
-              )}
-            </div>
-
-            {hasSidebar && (
-              <aside aria-label="Project facts" className="space-y-10 lg:col-span-4">
-                {p.location && (
-                  <Block id="location" title="Location">
-                    <p className="flex items-start gap-2 text-lg text-ink"><MapPin size={20} aria-hidden="true" className="mt-1 shrink-0 text-forest" />{p.location}</p>
-                  </Block>
-                )}
-                {hasTimeline && (
-                  <Block id="timeline" title="Project Timeline">
-                    <ProjectTimeline project={p} />
-                  </Block>
-                )}
-              </aside>
-            )}
-          </div>
-        </Container>
-      </section>
-
-      {p.gallery.length > 0 && (
-        <section aria-labelledby="project-gallery-heading" className="bg-paper py-16 sm:py-20">
-          <Container>
-            <h2 id="project-gallery-heading" className="text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">Photo Gallery</h2>
-            <ul className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {p.gallery.map((g) => (
-                <li key={g.src}>
-                  <figure className="group">
-                    <Photo src={g.src} alt={g.alt} sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw" className="aspect-[4/3] rounded-xl" />
-                    {g.caption && <figcaption className="mt-2 text-sm text-muted">{g.caption}</figcaption>}
-                  </figure>
-                </li>
-              ))}
-            </ul>
-          </Container>
-        </section>
-      )}
-    </>
+      <div className="min-w-0">
+        <p className="text-xs font-semibold uppercase tracking-wider text-muted">
+          {label}
+        </p>
+        <p className="mt-1 wrap-break-word font-bold text-ink">{value}</p>
+      </div>
+    </div>
   );
 }

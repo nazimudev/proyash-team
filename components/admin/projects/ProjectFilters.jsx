@@ -1,9 +1,10 @@
 "use client";
-
+import { useState, useEffect } from "react";
 import { Search, RotateCcw } from "lucide-react";
 import { btnSecondary, inputCls } from "@/components/admin/donation/Modal";
-import { PROJECT_CATEGORIES, PROJECT_STATUSES } from "@/data/projectsAdmin";
+import { PROJECT_STATUSES } from "@/data/projectsAdmin";
 import { SORT_OPTIONS } from "@/lib/projectUtils";
+import { fetchCategories } from "@/services/projectCategoryService";
 
 export default function ProjectFilters({
   filters,
@@ -12,6 +13,37 @@ export default function ProjectFilters({
   hasFilters,
 }) {
   const on = (key) => (e) => onChange(key, e.target.value);
+  const [categories, setCategories] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
+
+    useEffect(() => {
+      let isMounted = true;
+  
+      async function loadCategories() {
+        try {
+          const data = await fetchCategories();
+  
+          if (isMounted) {
+            setCategories(
+              data.filter((category) => category.status === "active"),
+            );
+          }
+        } catch (error) {
+          console.error("Failed to load categories:", error);
+        } finally {
+          if (isMounted) {
+            setCategoriesLoading(false);
+          }
+        }
+      }
+  
+      loadCategories();
+  
+      return () => {
+        isMounted = false;
+      };
+    }, []);
+
   return (
     <div className="space-y-3 border-b border-gray-100 p-4">
       <div className="relative">
@@ -49,11 +81,18 @@ export default function ProjectFilters({
           className={inputCls}
         >
           <option value="all">All Categories</option>
-          {PROJECT_CATEGORIES.map((c) => (
-            <option key={c} value={c}>
-              {c}
+
+          {categoriesLoading ? (
+            <option value="" disabled>
+              Loading categories...
             </option>
-          ))}
+          ) : (
+            categories.map((category) => (
+              <option key={category.id} value={category.name}>
+                {category.name}
+              </option>
+            ))
+          )}
         </select>
         <select
           aria-label="Sort by"

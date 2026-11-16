@@ -52,31 +52,49 @@ export const projectStatuses = [
   { id: "planned", label: "Planned" },
 ];
 
+
 export const projects = [
-  // Example record (UNPUBLISHED; the image file does not exist). Copy this shape for real projects.
   {
     id: "example-project",
     slug: "example-project",
-    title: "Example Project",
+    title: "Community Support Initiative",
     category: "community",
-    status: "planned",
-    summary: "Replace this with a verified project description.",
-    description: "",
-    coverImage: "/images/projects/replace-with-real-image.jpg",
-    imageAlt: "Replace with an accurate image description.",
-    location: null,
-    startDate: null,
+    status: "ongoing",
+    summary:
+      "An initiative focused on supporting disadvantaged people in the local community.",
+    description:
+      "This is a demonstration project for the Proyash website.\n\nIt showcases how project information will appear on the public website.",
+
+    coverImage: "/images/projects/community-support.jpg",
+    imageAlt: "Community support activity",
+
+    location: "Madhupur, Tangail",
+    startDate: "2026-11",
     completionDate: null,
-    objectives: [],
-    activities: [],
+
+    objectives: [
+      "Support disadvantaged people.",
+      "Encourage community participation.",
+    ],
+
+    activities: [
+      {
+        title: "Community Support Activity",
+        description: "A sample activity for demonstrating the project page.",
+        date: "2026-11-10",
+      },
+    ],
+
     milestones: [],
     outcomes: [],
     gallery: [],
+
     isVerified: false,
-    isPublished: false,
+    isPublished: true,
     isFeatured: false,
   },
 ];
+
 
 export const projectsHero = {
   eyebrow: "Our projects",

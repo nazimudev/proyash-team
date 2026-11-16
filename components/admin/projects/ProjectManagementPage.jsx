@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import PageHeader from "@/components/admin/ui/PageHeader";
@@ -10,7 +11,6 @@ import ProjectFinancialOverview from "./ProjectFinancialOverview";
 import ProjectFilters from "./ProjectFilters";
 import ProjectsTable from "./ProjectsTable";
 import ProjectDetailsModal from "./ProjectDetailsModal";
-import { sampleProjects } from "@/data/projectsAdmin";
 import { demoExpenses } from "@/data/expenses"; // shared with the Expenses page so totals stay consistent
 import {
   PROJECT_ROUTES,
@@ -19,14 +19,35 @@ import {
   calculateProjectSummary,
   calculateFinancials,
   filterAndSortProjects,
+  normalizeProject,
 } from "@/lib/projectUtils";
+
+import { fetchProjects } from "@/services/projectService";
 
 export default function ProjectManagementPage() {
   // FUTURE API: replace these two sources with Laravel responses (projects, and per-project expense totals or records).
-  const [projects] = useState(sampleProjects);
   const [expenses] = useState(demoExpenses);
   const [filters, setFilters] = useState(EMPTY_PROJECT_FILTERS);
   const [selected, setSelected] = useState(null);
+
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const loadProjects = async () => {
+    try {
+      const data = await fetchProjects();
+      const normalizedProjects = data.map(normalizeProject);
+      setProjects(normalizedProjects);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+useEffect(() => {
+  loadProjects();
+}, []);
 
   const all = useMemo(
     () => attachExpenseTotals(projects, expenses),
@@ -38,8 +59,11 @@ export default function ProjectManagementPage() {
     () => filterAndSortProjects(all, filters),
     [all, filters],
   );
-  const hasFilters =
-    JSON.stringify(filters) !== JSON.stringify(EMPTY_PROJECT_FILTERS);
+  const hasFilters = JSON.stringify(filters) !== JSON.stringify(EMPTY_PROJECT_FILTERS);
+
+  const handleView = (project) => {
+    setSelected(project);
+  };
 
   return (
     <div>
@@ -57,10 +81,6 @@ export default function ProjectManagementPage() {
           </div>
         }
       />
-      <p className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
-        Sample data only. Summary and budget figures cover all projects, not
-        just the filtered rows.
-      </p>
 
       <div className="space-y-6">
         <ProjectSummaryCards summary={summary} financials={financials} />
@@ -79,7 +99,8 @@ export default function ProjectManagementPage() {
           <ProjectsTable
             projects={visible}
             hasFilters={hasFilters}
-            onView={setSelected}
+            onView={handleView}
+            onRefresh={loadProjects}
           />
           <p className="border-t border-gray-100 px-4 py-3 text-sm text-gray-600">
             Showing {visible.length} of {all.length} projects

@@ -13,32 +13,7 @@ export default function ContactHero() {
         className="pointer-events-none absolute -bottom-20 left-0 h-56 w-56 rounded-full bg-emerald-50"
       />
 
-      <div className="relative mx-auto max-w-6xl px-4 pb-10 pt-12 sm:px-6 sm:pb-12 sm:pt-16 lg:px-8">
-        <nav aria-label="Breadcrumb" className="mb-6 text-sm text-neutral-500">
-          <ol className="flex flex-wrap items-center gap-2">
-            {hero.breadcrumb.map((item, i) => (
-              <li key={item.label} className="flex items-center gap-2">
-                {i > 0 && <span aria-hidden="true">/</span>}
-                {item.href ? (
-                  <Link
-                    href={item.href}
-                    className="hover:text-[#1F4D2B] focus-visible:outline-2 focus-visible:outline-[#1F4D2B]"
-                  >
-                    {item.label}
-                  </Link>
-                ) : (
-                  <span
-                    aria-current="page"
-                    className="font-medium text-[#1F4D2B]"
-                  >
-                    {item.label}
-                  </span>
-                )}
-              </li>
-            ))}
-          </ol>
-        </nav>
-
+      <div className="relative mx-auto max-w-6xl px-4 pb-10 pt-20 mt-20 sm:px-6 sm:pb-12 sm:pt-16 lg:px-8">
         <p className="text-xs font-semibold tracking-[0.2em] text-emerald-600">
           {hero.eyebrow}
         </p>

@@ -17,6 +17,8 @@ import {
   Target,
   Users,
   UsersRound,
+  Award,
+  MessageCircleCheck,
 } from "lucide-react";
 
 const icons = {
@@ -33,6 +35,8 @@ const icons = {
   target: Target,
   users: Users,
   usersRound: UsersRound,
+  Award: Award,
+  MessageCircleCheck: MessageCircleCheck,
 };
 
 export function getIcon(name) {

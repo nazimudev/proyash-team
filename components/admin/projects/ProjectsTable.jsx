@@ -2,11 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { MoreVertical, Eye, Pencil, Receipt, FolderSearch } from "lucide-react";
+import { MoreVertical, Eye, Pencil, Receipt, FolderSearch, Trash } from "lucide-react";
 import EmptyState from "@/components/admin/ui/EmptyState";
 import { ProjectStatusBadge, ProgressBar } from "./ProjectBadges";
 import { formatCurrency, formatDate } from "@/lib/donationUtils";
 import { PROJECT_ROUTES } from "@/lib/projectUtils";
+import ProjectDeleteModal from "./ProjectDeleteModal";
+import { deleteProject } from "@/services/projectService";
+import { toast } from "sonner";
 
 const HEADERS = [
   "Project Name",
@@ -22,7 +25,7 @@ const HEADERS = [
   "Actions",
 ];
 
-function ActionsMenu({ project, onView }) {
+function ActionsMenu({ project, onView, onDelete }) {
   const [pos, setPos] = useState(null);
   const btnRef = useRef(null);
   const menuRef = useRef(null);
@@ -132,13 +135,53 @@ function ActionsMenu({ project, onView }) {
             <Receipt className="h-4 w-4" aria-hidden="true" />
             View Expenses
           </Link>
+          <button
+            type="button"
+            role="menuitem"
+            className={`${itemCls} text-red-600 hover:bg-red-50`}
+            onClick={() => {
+              setPos(null);
+              onDelete(project);
+            }}
+          >
+            <Trash className="h-4 w-4" aria-hidden="true" />
+            Delete
+          </button>
         </div>
       ) : null}
     </>
   );
 }
 
-export default function ProjectsTable({ projects, hasFilters, onView }) {
+export default function ProjectsTable({ projects, hasFilters, onView, onRefresh }) {
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  const [deleting, setDeleting] = useState(false);
+
+  const handleDeleteProject = async () => {
+    if (!selectedProject?.id) {
+      toast.error("Project ID is missing.");
+      return;
+    }
+
+    try {
+      setDeleting(true);
+
+      await deleteProject(selectedProject.id);
+
+      toast.success("Project deleted successfully.");
+
+      setSelectedProject(null);
+      await onRefresh();
+
+      // Parent component থেকে refresh করার ব্যবস্থা করতে হবে।
+    } catch (error) {
+      toast.error(error.message || "Failed to delete project.");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   if (projects.length === 0) {
     return (
       <div className="p-4">
@@ -214,13 +257,25 @@ export default function ProjectsTable({ projects, hasFilters, onView }) {
                   <ProjectStatusBadge status={x.status} />
                 </td>
                 <td className="px-4 py-3 text-right">
-                  <ActionsMenu project={x} onView={onView} />
+                  <ActionsMenu
+                    project={x}
+                    onView={onView}
+                    onDelete={setSelectedProject}
+                  />
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
+
+      <ProjectDeleteModal
+        project={selectedProject}
+        open={!!selectedProject}
+        onClose={() => setSelectedProject(null)}
+        onConfirm={handleDeleteProject}
+        loading={deleting}
+      />
     </div>
   );
 }

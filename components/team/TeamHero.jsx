@@ -49,25 +49,6 @@ export default function TeamHero() {
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-7">
-            <nav aria-label="Breadcrumb">
-              <ol className="flex items-center gap-2 text-sm">
-                <li>
-                  <Link
-                    href="/"
-                    className="font-semibold text-forest underline-offset-4 hover:underline"
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li aria-hidden="true" className="text-muted">
-                  /
-                </li>
-                <li aria-current="page" className="font-semibold text-muted">
-                  Our Team
-                </li>
-              </ol>
-            </nav>
-
             <p className="mt-10 flex items-center gap-3 text-sm font-bold tracking-wide text-forest">
               <span aria-hidden="true" className="h-px w-8 bg-current" />
               Meet our people

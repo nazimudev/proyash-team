@@ -21,15 +21,28 @@ export default function CommitmentSection({ content }) {
         <ul className="divide-y divide-emerald-900/15 border-y border-emerald-900/15 dark:divide-emerald-100/15 dark:border-emerald-100/15">
           {content.items.map((item) => (
             <li key={item.title} className="flex gap-5 py-6">
-              <span className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-400 text-emerald-950">
+              <span className="mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded bg-amber-400 text-emerald-950">
                 <Check className="h-5 w-5" aria-hidden="true" />
               </span>
               <div>
-                <h3 className="text-xl font-semibold leading-snug text-emerald-950 dark:text-emerald-50">
-                  {item.title}
-                </h3>
                 <p className="mt-1 leading-7 text-neutral-700 dark:text-neutral-300">
-                  {item.description}
+                  We are committed to standing beside people in need, nurturing
+                  the potential of young people, playing a responsible role in
+                  protecting the environment, and maintaining honesty and
+                  accountability in every initiative. We aim to work
+                  collectively with local communities, educational institutions,
+                  volunteers, experts, and partner organizations. At the same
+                  time, we are committed to evaluating the outcomes of our
+                  activities, learning from experience, and improving our
+                  initiatives as needed to make our work more effective. Our
+                  goal is not merely to address the needs of the present, but to
+                  contribute to building a future where humanity forms the
+                  foundation of our actions, young people become the driving
+                  force of change, and sustainable development becomes part of
+                  our collective progress.
+                </p>
+                <p className="mt-1 leading-7 text-neutral-700 dark:text-neutral-300" >
+                  Proyash — Hands and hearts for humanity.
                 </p>
               </div>
             </li>

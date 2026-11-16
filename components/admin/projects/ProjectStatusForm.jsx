@@ -22,13 +22,15 @@ export default function ProjectStatusForm({ values, errors, onChange }) {
         >
           <select
             {...ctl("status", errors)}
-            value={values.status}
+            value={values.status ?? ""}
             onChange={set("status")}
             className={controlCls}
           >
-            {PROJECT_STATUSES.map((s) => (
-              <option key={s} value={s}>
-                {s}
+            <option value="">Choose a status</option>
+
+            {PROJECT_STATUSES.map((status) => (
+              <option key={status.value} value={status.value}>
+                {status.name}
               </option>
             ))}
           </select>
@@ -70,7 +72,7 @@ export default function ProjectStatusForm({ values, errors, onChange }) {
         </Field>
       </FormSection>
 
-      <FormSection
+      {/* <FormSection
         title="Additional Notes"
         description="For administrators only. Never shown on the public website."
       >
@@ -89,7 +91,7 @@ export default function ProjectStatusForm({ values, errors, onChange }) {
             className={controlCls}
           />
         </Field>
-      </FormSection>
+      </FormSection> */}
     </>
   );
 }

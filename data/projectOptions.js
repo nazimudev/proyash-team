@@ -22,9 +22,9 @@ export const FUNDING_SOURCES = [
 ];
 
 export const PROJECT_STATUSES = [
-  "Planned",
-  "In Progress",
-  "Completed",
-  "On Hold",
-  "Cancelled",
+  { value: "planned", name: "Planned" },
+  { value: "in_progress", name: "In Progress" },
+  { value: "complete", name: "Completed" },
+  { value: "on_hold", name: "On Hold" },
+  { value: "cancelled", name: "Cancelled" },
 ];

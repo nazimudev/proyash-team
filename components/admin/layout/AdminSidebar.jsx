@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Leaf, ChevronDown } from "lucide-react";
 
@@ -12,9 +13,15 @@ import Logo from "@/components/ui/Logo";
 export function AdminBrand() {
   return (
     <div className="flex items-center gap-3">
-      <span className="flex h-9 w-9 items-center justify-center rounded-lg text-white">
-        <Logo />
-      </span>
+      <div className="relative h-9 w-9 shrink-0">
+        <Image
+          src="/images/logo.jpg"
+          alt="Proyash Logo"
+          fill
+          sizes="36px"
+          className="rounded-lg object-contain"
+        />
+      </div>
 
       <span className="leading-tight">
         <span className="block text-sm font-semibold text-gray-900">

@@ -1,6 +1,14 @@
 export const EXPENSE_CATEGORIES = [
-  "Food and Refreshments", "Transportation", "Medical Support", "Education Support", "Tree Plantation",
-  "Office Supplies", "Event Management", "Equipment", "Utilities", "Other",
+  "Food and Refreshments",
+  "Transportation",
+  "Medical Support",
+  "Education Support",
+  "Tree Plantation",
+  "Office Supplies",
+  "Event Management",
+  "Equipment",
+  "Utilities",
+  "Other",
 ];
 
 export const EXPENSE_TYPES = [
@@ -8,7 +16,27 @@ export const EXPENSE_TYPES = [
   { value: "general", label: "General Expense" },
 ];
 
-export const EXPENSE_PAYMENT_METHODS = ["Cash", "bKash", "Nagad", "Rocket", "Bank Transfer", "Other"];
+
+export const EXPENSE_PAYMENT_METHODS = [
+  "cash",
+  "bkash",
+  "nagad",
+  "rocket",
+  "bank_transfer",
+  "cheque",
+  "other",
+];
+
+export const EXPENSE_PAYMENT_LABELS = {
+  cash: "Cash",
+  bkash: "bKash",
+  nagad: "Nagad",
+  rocket: "Rocket",
+  bank_transfer: "Bank Transfer",
+  cheque: "Cheque",
+  other: "Other",
+};
+
 
 // SAMPLE OPTIONS ONLY. Replace with projects loaded from the backend later.
 export const sampleExpenseProjects = [

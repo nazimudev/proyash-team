@@ -21,7 +21,7 @@ export default function GoalsSection({ content }) {
             return (
               <li
                 key={goal.title}
-                className="group flex gap-5 rounded-2xl border border-emerald-900/15 bg-emerald-50/60 p-6 transition-colors duration-200 hover:border-emerald-700/40 hover:bg-emerald-50 sm:p-8 dark:border-emerald-100/10 dark:bg-emerald-950/40 dark:hover:border-emerald-300/40"
+                className="group flex gap-5 rounded-2xl border border-emerald-900/15 bg-emerald-50/60 p-6 transition-colors duration-200 hover:border-emerald-700/40 hover:bg-gray-600 sm:p-8 dark:border-emerald-100/10 dark:bg-emerald-950/40 dark:hover:border-emerald-300/40"
               >
                 <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-emerald-800 text-white dark:bg-amber-400 dark:text-emerald-950">
                   <Icon className="h-7 w-7" aria-hidden="true" />

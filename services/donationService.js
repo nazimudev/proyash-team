@@ -5,7 +5,7 @@
 //   POST {API}/donations          -> { reference?: string }
 // Without a configured URL, nothing is fabricated: lists are empty and submissions are refused.
 
-const API_URL = process.env.NEXT_PUBLIC_DONATION_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 import { sampleDonations } from "@/data/sampleDonations";
 import { sampleProjects } from "@/data/sampleProjects";
@@ -41,23 +41,48 @@ export async function getFinancialReport() {
   }
 }
 
+
 export async function submitDonation(payload) {
-  if (!API_URL) return { ok: false, code: "NOT_CONFIGURED" };
-  try {
-    const res = await fetch(`${API_URL}/donations`, {
+  const token = localStorage.getItem("auth_token");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/admin/donation`,
+    {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload),
-    });
-    if (!res.ok) return { ok: false, code: `HTTP_${res.status}` };
-    const data = await res.json().catch(() => ({}));
-    return { ok: true, reference: data?.reference ?? null };
-  } catch {
-    return { ok: false, code: "NETWORK" };
+      body: JSON.stringify({
+        donor_type: payload.donorType,
+        full_name: payload.donorType === "anonymous" ? null : payload.name,
+        phone: payload.phone || null,
+        email: payload.email || null,
+        amount: Number(payload.amount),
+        payment_method_id: Number(payload.method),
+        transaction_id: payload.transactionId || null,
+        donation_date: payload.donationDate,
+        status: payload.status,
+        message: payload.message || null,
+      }),
+    },
+  );
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    console.error("Donation API Error:", result);
+
+    const error = new Error(result.message || "Failed to create donation.");
+
+    error.status = response.status;
+    error.errors = result.errors;
+
+    throw error;
   }
+
+  return result.data;
 }
 
 
@@ -65,8 +90,55 @@ const wait = (ms = 350) => new Promise((r) => setTimeout(r, ms));
 let nextSeq = sampleDonations.length + 1;
 
 export async function fetchDonations() {
-  await wait();
-  return structuredClone(sampleDonations);
+  const token = localStorage.getItem("auth_token");
+
+  if (!token) {
+    throw new Error("Authentication required");
+  }
+
+  const response = await fetch(`${API_URL}/admin/donations`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || "Failed to fetch donations");
+  }
+
+  // Laravel paginate(10) হলে result.data.data
+  // Donation::all() হলে result.data
+
+  const donations = Array.isArray(result.data)
+    ? result.data
+    : (result.data?.data ?? []);
+
+  return donations.map((item) => ({
+    id: item.id,
+
+    donor: {
+      name: item.full_name || "",
+      isAnonymous: item.donor_type === "anonymous",
+      phone: item.phone,
+      email: item.email,
+    },
+    amount: Number(item.amount),
+    method: item.payment_method?.name ?? String(item.payment_method_id),
+    transactionId: item.transaction_id,
+    projectId: null,
+    purpose: item.purpose,
+    donationDate: item.created_at,
+    status: item.status,
+    reject: item.rejection_reason,
+    verifiedAt: item.verified_at,
+    verifiedBy: item.verified_by,
+    message: item.message,
+  }));
 } // TODO: GET donations
 export async function fetchProjects() {
   await wait(150);
@@ -90,33 +162,117 @@ export async function createDonation(payload) {
     id,
   };
 }
-export async function updateDonation(id, patch) {
-  await wait();
-  return { id, ...patch };
+export async function updateDonation(id, data) {
+  const token = localStorage.getItem("auth_token");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/admin/donation/${id}`,
+    {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    },
+  );
+
+  const result = await response.json();
+
+  console.log(result);
+
+  if (!response.ok) {
+    throw new Error(
+      result.message ||
+        Object.values(result.errors || {})
+          .flat()
+          .join(", ") ||
+        "Failed to update donation",
+    );
+  }
+
+  return result.data;
 } // TODO: PATCH donation
 export async function verifyDonation(id) {
-  // TODO: POST verify (server sets time and admin)
-  await wait();
+  const token = localStorage.getItem("auth_token");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/admin/donations/${id}/verify`,
+    {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || "Verification failed");
+  }
+
   return {
-    status: "verified",
-    verifiedAt: new Date().toISOString(),
-    verifiedBy: null,
+    status: result.data.status,
+    verifiedAt: result.data.verified_at,
+    verifiedBy: result.data.verified_by,
     rejectionReason: null,
   };
 }
-export async function rejectDonation(id, reason) {
-  // TODO: POST reject
-  await wait();
+export async function rejectDonation(id, reason = "") {
+  const token = localStorage.getItem("auth_token");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/admin/donation/${id}/reject`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        reason: reason.trim() || null,
+      }),
+    },
+  );
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || "Failed to reject donation");
+  }
+
   return {
-    status: "rejected",
-    rejectionReason: reason?.trim() || null,
+    status: result.data.status,
+    rejectionReason: result.data.rejection_reason ?? null,
     verifiedAt: null,
     verifiedBy: null,
   };
 }
 export async function archiveDonation(id) {
-  await wait();
-  return { archived: true };
+  const token = localStorage.getItem("auth_token");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/admin/donation/${id}`,
+    {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.message || "Failed to delete donation");
+  }
+
+  return result;
 } // TODO: archive/void with audit trail
 export async function uploadPaymentProof(file) {
   // TODO: multipart upload; nothing is stored here

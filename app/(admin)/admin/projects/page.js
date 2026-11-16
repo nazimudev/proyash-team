@@ -1,3 +1,4 @@
+export const instant = false;
 import ProjectManagementPage from "@/components/admin/projects/ProjectManagementPage";
 
 export const metadata = { title: "Project Management | Proyash Admin" };

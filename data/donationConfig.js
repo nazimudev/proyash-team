@@ -4,6 +4,9 @@
  * Nothing here is a real account, endpoint or financial figure. It is a template
  * to be filled in ONLY with confirmed information.
  */
+
+const URL = process.env.NEXT_PUBLIC_API_URL;
+
 export const donationConfig = {
   currency: "BDT",
   organizationName: "Proyash",
@@ -20,7 +23,7 @@ export const donationConfig = {
    *   failure  any non-2xx
    * The donation is always created as "pending verification" by the backend.
    */
-  submissionEndpoint: "",
+  submissionEndpoint: `${URL}/public/submit-donation`,
 
   quickAmounts: [100, 500, 1000, 5000], // BDT, shortcuts only; no minimum/maximum policy is implied
   purposes: [

@@ -7,7 +7,7 @@ export default function ProjectGrid({ projects, status = "ready" }) {
       <ul aria-busy="true" aria-label="Loading projects" className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {Array.from({ length: 3 }, (_, i) => (
           <li key={i} className="overflow-hidden rounded-2xl border border-forest/10 bg-white">
-            <div className="aspect-[16/10] animate-pulse bg-mist motion-reduce:animate-none" />
+            <div className="aspect-16/10 animate-pulse bg-mist motion-reduce:animate-none" />
             <div className="space-y-3 p-6">
               <div className="h-3 w-1/3 rounded bg-mist" />
               <div className="h-5 w-3/4 rounded bg-mist" />

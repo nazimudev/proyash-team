@@ -8,6 +8,7 @@ import {
   formatBdt,
   MEMBERSHIP_FEE_BDT,
 } from "@/lib/memberRequestUtils";
+import { getAgreementDate } from "@/utils/agrementsUtils";
 
 function Item({ label, children, wide }) {
   return (
@@ -116,7 +117,7 @@ export default function ApplicationDetailDialog({
             <Avatar app={a} size="h-16 w-16" />
             <div>
               <p className="text-base font-semibold text-gray-900">
-                {a.full_name_en}
+                {a.user.name}
               </p>
               <p className="text-sm text-gray-600" lang="bn">
                 {a.full_name_bn}
@@ -131,7 +132,7 @@ export default function ApplicationDetailDialog({
             <Item label="Full name (Bangla)">
               <span lang="bn">{a.full_name_bn}</span>
             </Item>
-            <Item label="Full name (English)">{a.full_name_en}</Item>
+            <Item label="Full name (English)">{a.user.name}</Item>
             <Item label="Father's name">{a.father_name}</Item>
             <Item label="Mother's name">{a.mother_name}</Item>
             <Item label="Date of birth">{formatDate(a.date_of_birth)}</Item>
@@ -145,48 +146,66 @@ export default function ApplicationDetailDialog({
             </Item>
             <Item label="Blood group">{a.blood_group}</Item>
             <Item label="Mobile number">{a.mobile_number}</Item>
-            <Item label="Email">{a.email}</Item>
+            <Item label="Email">{a.user.email}</Item>
             <Item label="Profile photo">{a.photo ? "Uploaded" : null}</Item>
           </Section>
 
-          <Section title="Permanent Address">
-            <Item label="Village">{a.permanent_village}</Item>
-            <Item label="Post office">{a.permanent_post_office}</Item>
-            <Item label="Upazila">{a.permanent_upazila}</Item>
-            <Item label="District">{a.permanent_district}</Item>
-          </Section>
-
-          <Section title="Present Address">
-            <Item label="Village">{a.present_village}</Item>
-            <Item label="Post office">{a.present_post_office}</Item>
-            <Item label="Upazila">{a.present_upazila}</Item>
-            <Item label="District">{a.present_district}</Item>
-          </Section>
+          {a.addresses?.map((address) =>
+            address.type === "permanent" ? (
+              <Section key={address.id} title="Permanent Address">
+                <Item label="Village">{address.village}</Item>
+                <Item label="Post office">{address.post_office}</Item>
+                <Item label="Upazila">{address.upazila}</Item>
+                <Item label="District">{address.district}</Item>
+              </Section>
+            ) : address.type === "present" ? (
+              <Section key={address.id} title="Present Address">
+                <Item label="Village">{address.village}</Item>
+                <Item label="Post office">{address.post_office}</Item>
+                <Item label="Upazila">{address.upazila}</Item>
+                <Item label="District">{address.district}</Item>
+              </Section>
+            ) : null,
+          )}
 
           <Section title="Application Information">
             <Item label="Application ID">{a.id}</Item>
-            <Item label="Submitted">{formatDate(a.submitted_at)}</Item>
+
+            <Item label="Submitted">{formatDate(a.created_at)}</Item>
+
             <Item label="Current status">
               <StatusBadge status={a.status} />
             </Item>
+
             <Item label="Membership agreement">
-              {accepted(a.agreement_accepted_at) ?? "Not recorded"}
+              {getAgreementDate(a.agreements, "membership_conditions")}
             </Item>
+
+            <Item label="Applicant declaration">
+              {getAgreementDate(a.agreements, "applicant_declaration")}
+            </Item>
+
             <Item label="Privacy policy">
-              {accepted(a.privacy_accepted_at) ?? "Not recorded"}
+              {getAgreementDate(a.agreements, "privacy_policy")}
             </Item>
-            <Item label="Terms">
-              {accepted(a.terms_accepted_at) ?? "Not recorded"}
+
+            <Item label="Terms of service">
+              {getAgreementDate(a.agreements, "terms_of_service")}
             </Item>
+
             {a.reviewed_at ? (
-              <Item label="Reviewed by">{a.reviewed_by_name}</Item>
+              <Item label="Reviewed by">
+                {a.reviewed_by_name ?? "Administrator"}
+              </Item>
             ) : null}
+
             {a.reviewed_at ? (
               <Item label="Reviewed on">{formatDate(a.reviewed_at)}</Item>
             ) : null}
+
             {a.status === "rejected" ? (
               <Item label="Rejection reason (administrators only)" wide>
-                {a.rejection_reason}
+                {a.rejection_reason ?? "No reason provided"}
               </Item>
             ) : null}
           </Section>

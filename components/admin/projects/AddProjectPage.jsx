@@ -19,6 +19,7 @@ import {
   formToProject,
   nextPreviewCode,
   FIELD_ORDER,
+  generateProjectCode
 } from "@/lib/projectFormUtils";
 import { createProject } from "@/services/projectService";
 
@@ -29,7 +30,8 @@ export default function AddProjectPage() {
   const [submitError, setSubmitError] = useState(null);
   const [created, setCreated] = useState(null);
   const inFlight = useRef(false); // blocks double submits before state updates
-  const previewCode = useMemo(() => nextPreviewCode(sampleProjects), []);
+
+  const [previewCode, setPreviewCode] = useState(() => generateProjectCode());
 
   const onChange = (name, value) => {
     setValues((v) => {
@@ -50,9 +52,20 @@ export default function AddProjectPage() {
     e.preventDefault();
     if (inFlight.current) return;
     const found = validateProjectForm(values);
+
+    console.log("FORM VALUES:", values);
+    console.log("VALIDATION ERRORS:", found);
+    console.log(
+      "FAILED FIELDS:",
+      Object.keys(found).filter((key) => found[key]),
+    );
+
     setErrors(found);
+
     const first = FIELD_ORDER.find((k) => found[k]);
+
     if (first) {
+      console.log("First invalid field:", first);
       document.getElementById(`pf-${first}`)?.focus();
       return;
     }
@@ -135,10 +148,6 @@ export default function AddProjectPage() {
           className="space-y-6"
           aria-label="Add project"
         >
-          <p className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
-            Prototype: submitting creates the project in this page only. Nothing
-            is saved to a server yet.
-          </p>
           <ProjectBasicInformationForm
             values={values}
             errors={errors}

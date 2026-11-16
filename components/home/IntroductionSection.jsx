@@ -19,17 +19,20 @@ export default function IntroductionSection() {
           </div>
 
           <div className="lg:col-span-6 lg:col-start-7">
-            <SectionHeading eyebrow="Who we are" title="Together, We Can Make a Difference." />
+            <SectionHeading
+              eyebrow="Who we are"
+              title="Together, We Can Make a Difference."
+            />
             <div className="mt-6 max-w-xl space-y-4 text-lg leading-relaxed text-muted">
               <p>
-                Proyash Songgothon is a social welfare organization based in Madhupur,
-                Tangail, Bangladesh. We believe communities grow stronger when people look
-                out for one another.
+                Proyash Songgothon is a social welfare organization based in
+                Madhupur, Tangail, Bangladesh. We believe communities grow
+                stronger when people look out for one another.
               </p>
               <p>
-                Our work centres on three things: supporting people in need, helping
-                underprivileged students continue their education, and promoting care for
-                the environment through tree plantation.
+                Our work centres on three things: supporting people in need,
+                helping underprivileged students continue their education, and
+                promoting care for the environment through tree plantation.
               </p>
             </div>
 
@@ -41,7 +44,11 @@ export default function IntroductionSection() {
                     key={label}
                     className="flex items-center gap-3 rounded-xl bg-mist px-4 py-3.5 text-sm font-semibold text-ink"
                   >
-                    <Icon size={20} aria-hidden="true" className="shrink-0 text-forest" />
+                    <Icon
+                      size={20}
+                      aria-hidden="true"
+                      className="shrink-0 text-forest"
+                    />
                     {label}
                   </li>
                 );

@@ -1,16 +1,5 @@
-// Founder service layer.
-// NO founder API exists yet, and there is no data source for real founder profiles, so fetchFounders returns an
-// empty list. Every write throws BackendNotConnectedError so the page never reports a save, publish, or delete
-// that did not happen.
-//
-// Before wiring the real API, check how the PUBLIC founder section currently stores and renders its content, and
-// map field names to it. Then replace each body with a call through the project's API client (auth attached):
-//   - createFounder / updateFounder: send `fields` (plus the photo as multipart/form-data when one is chosen;
-//     `removePhoto` asks the server to clear it). The backend must authorize administrators, re-validate the photo,
-//     and decide whether two profiles is enforced.
-//   - Resolve ONLY after the backend confirms, with the saved record: { founder }. Validation failures should throw an
-//     error with `fieldErrors` ({ full_name_en: "message" }).
-//   - Only profiles whose status is "published" may reach the public website.
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export class BackendNotConnectedError extends Error {
   constructor() {
     super("The founder API is not connected yet.");
@@ -18,30 +7,149 @@ export class BackendNotConnectedError extends Error {
   }
 }
 
-const wait = (ms = 350) => new Promise((r) => setTimeout(r, ms));
+async function handleResponse(response) {
+  const result = await response.json().catch(() => ({}));
 
+  if (!response.ok) {
+    console.log("Founder API Error:", result);
+    console.log("Validation Errors:", result.errors);
+
+    const error = new Error(result.message || "Something went wrong.");
+
+    error.status = response.status;
+
+    error.fieldErrors = result.errors
+      ? Object.fromEntries(
+          Object.entries(result.errors).map(([key, value]) => [
+            key,
+            Array.isArray(value) ? value[0] : value,
+          ]),
+        )
+      : {};
+
+    throw error;
+  }
+
+  return result;
+}
+
+function getHeaders() {
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("auth_token") : null;
+
+  return {
+    Accept: "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+}
+
+// GET: All founders (Admin)
 export async function fetchFounders() {
-  await wait();
-  return [];
-} // TODO: GET founders (admin: all statuses)
+  const response = await fetch(`${API_URL}/admin/founders`, {
+    method: "GET",
+    headers: getHeaders(),
+    cache: "no-store",
+  });
+
+  const result = await handleResponse(response);
+
+  return result.data?.data ?? [];
+}
+
+// POST: Create founder
 export async function createFounder({ fields, photoFile }) {
-  void fields;
-  void photoFile;
-  throw new BackendNotConnectedError();
-} // TODO: POST
+  const formData = new FormData();
+
+  Object.entries(fields).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      formData.append(key, value);
+    }
+  });
+
+  formData.append("confirmed", fields.confirmed ? "1" : "0");
+
+  if (photoFile) {
+    formData.append("photo", photoFile);
+  }
+
+  const response = await fetch(`${API_URL}/admin/founders`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: formData,
+  });
+
+  const result = await handleResponse(response);
+
+  return {
+    founder: result.data,
+  };
+}
+
+// POST: Update founder
 export async function updateFounder(id, { fields, photoFile, removePhoto }) {
-  void id;
-  void fields;
-  void photoFile;
-  void removePhoto;
-  throw new BackendNotConnectedError();
-} // TODO: PATCH
+  const formData = new FormData();
+
+  Object.entries(fields).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      formData.append(key, value);
+    }
+  });
+
+  formData.append("confirmed", fields.confirmed ? "1" : "0");
+
+  if (photoFile) {
+    formData.append("photo", photoFile);
+  }
+
+  if (removePhoto) {
+    formData.append("remove_photo", "1");
+  }
+
+  const response = await fetch(`${API_URL}/admin/founders/${id}/update`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: formData,
+  });
+
+  const result = await handleResponse(response);
+
+  return {
+    founder: result.data,
+  };
+}
+
+// Publish / Unpublish founder
 export async function setFounderStatus(id, status) {
-  void id;
-  void status;
-  throw new BackendNotConnectedError();
-} // TODO: publish / unpublish
+  const formData = new FormData();
+
+  formData.append("status", status);
+
+  // Publishing requires confirmation.
+  if (status === "published") {
+    formData.append("confirmed", "1");
+  }
+
+  const response = await fetch(`${API_URL}/admin/founders/${id}/update`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: formData,
+  });
+
+  const result = await handleResponse(response);
+
+  return {
+    founder: result.data,
+  };
+}
+
+// DELETE: Founder
 export async function deleteFounder(id) {
-  void id;
-  throw new BackendNotConnectedError();
-} // TODO: DELETE
+  const response = await fetch(`${API_URL}/admin/founders/${id}`, {
+    method: "DELETE",
+    headers: getHeaders(),
+  });
+
+  const result = await handleResponse(response);
+
+  return result;
+}

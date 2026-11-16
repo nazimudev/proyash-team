@@ -1,3 +1,5 @@
+export const instant = false;
+
 import GalleryPage from "@/components/admin/gallery/GalleryPage";
 
 export const metadata = { title: "Gallery Management | Proyash Admin" };

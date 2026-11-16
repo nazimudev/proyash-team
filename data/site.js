@@ -9,14 +9,17 @@
 
 export const site = {
   name: "Proyash",
-  tagline: "Small Acts of Kindness. Lasting Change.",
+  tagline: "Small Actions. Lasting Change.",
   location: "Madhupur, Tangail, Bangladesh",
   facebookUrl: "https://www.facebook.com/proyas3524",
+  linkedinUrl: "https://www.linkedin.com/company/proyash-team/",
+  youtubeUrl: "https://youtube.com/@proyash_team",
+  instagramUrl: "https://www.instagram.com/proyash_team",
 };
 
 export const develop = {
   company: "miniwix",
-  url: "https://miniwix.com"
+  url: "https://miniwix.com",
 };
 
 /**
@@ -29,11 +32,24 @@ export const links = {
   join: { href: "/volunteer" },
   joinAction: { href: site.facebookUrl, external: true },
   about: { href: site.facebookUrl, external: true },
-  projects: { href: site.facebookUrl, external: true },
+  projects: { href: "/projects", external: true },
   gallery: { href: site.facebookUrl, external: true },
   contact: { href: site.facebookUrl, external: true },
   facebook: { href: site.facebookUrl, external: true },
-  donation: {href: "/donation"}
+  linkedin: {
+    href: site.linkedinUrl,
+    external: true,
+  },
+  youtube: {
+    href: site.youtubeUrl,
+    external: true,
+  },
+  instagram: {
+    href: site.instagramUrl,
+    external: true,
+  },
+  donation: { href: "/donation" },
+  impect: { href: "/impact" },
 };
 
 export const navItems = [
@@ -41,7 +57,7 @@ export const navItems = [
   { id: "about", label: "About Us", href: "/about" },
   { id: "initiatives", label: "Our Impact", href: "/impact" },
   { id: "projects", label: "Projects", href: "/projects" },
-  { id: "gallery", label: "Gallery", href: "/gallery" },
+  { id: "events", label: "Events", href: "/events" },
   { id: "our-team", label: "Our Team", href: "/our-team" },
   { id: "contact", label: "Contact", href: "/contact" },
   { id: "auth", label: "Login", href: "/auth" },
@@ -66,7 +82,7 @@ export function getNavItems({ loggedIn, role }) {
  */
 export const images = {
   hero: {
-    src: "/images/hero.JPG",
+    src: "/images/hero_1.jpg",
     alt: "Community volunteers planting young trees together",
   },
   heroSecondary: {
@@ -74,11 +90,11 @@ export const images = {
     alt: "A student reading in a classroom",
   },
   intro: {
-    src: "/images/intro-together.jpg",
+    src: "/images/home/together.png",
     alt: "Volunteers and neighbours gathered during a community activity",
   },
   impact: {
-    src: "/images/impact-care.jpg",
+    src: "/images/home/humen.jpg",
     alt: "People of different ages working side by side outdoors",
   },
 };
@@ -94,14 +110,14 @@ export const initiatives = [
     id: "community-support",
     icon: "HeartHandshake",
     label: "Community Support",
-    title: "Standing Beside Those in Need",
+    title: "Bringing Healthcare Within Everyone's Reach",
     description:
-      "Supporting underprivileged people and helping individuals and families facing difficult circumstances.",
+      "Organizing free medical camps to provide essential healthcare services, basic health checkups, and medical support to underprivileged communities and those in need.",
     image: {
-      src: "/images/initiative-community-support.jpg",
+      src: "/images/home/medical_camp.jpg",
       alt: "A volunteer offering help to a family in need",
     },
-    href: "/#projects",
+    href: "/projects",
     cta: "See related stories",
   },
   {
@@ -112,24 +128,24 @@ export const initiatives = [
     description:
       "Encouraging tree plantation and environmental responsibility to help build a greener future for our communities.",
     image: {
-      src: "/images/initiative-tree-plantation.jpg",
+      src: "/images/home/tree_plantation.jpg",
       alt: "Hands setting a young sapling into the soil",
     },
-    href: "/#projects",
+    href: "/projects",
     cta: "See related stories",
   },
   {
     id: "educational-support",
     icon: "GraduationCap",
-    label: "Educational Support",
-    title: "Helping Students Move Forward",
+    label: "Child Day",
+    title: "Celebrating Childhood and Creating Smiles",
     description:
-      "Supporting students from financially disadvantaged backgrounds and encouraging them to continue their education.",
+      "Bringing children together through joyful activities, meaningful experiences, and moments that inspire happiness, friendship, and hope for a brighter future.",
     image: {
-      src: "/images/initiative-education.jpg",
-      alt: "Students studying together at a desk",
+      src: "/images/home/child_day.jpg",
+      alt: "Children celebrating Child Day together",
     },
-    href: "/#projects",
+    href: "/projects",
     cta: "See related stories",
   },
 ];
@@ -235,4 +251,4 @@ export const galleryItems = [
     alt: "Community members gathered outdoors during a service activity",
   },
 ];
-// 
+//

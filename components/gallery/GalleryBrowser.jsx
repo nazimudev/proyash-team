@@ -10,7 +10,7 @@ import GalleryLightbox from "@/components/gallery/GalleryLightbox";
 export default function GalleryBrowser({
   categories,
   images,
-  status = "ready",
+  status
 }) {
   const [category, setCategory] = useState("all");
   const [openIndex, setOpenIndex] = useState(null);
@@ -26,7 +26,6 @@ export default function GalleryBrowser({
   );
   const visible =
     category === "all" ? images : images.filter((i) => i.category === category);
-
   return (
     <section
       id="gallery-browser"

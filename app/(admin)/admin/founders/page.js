@@ -1,3 +1,4 @@
+export const instant = false;
 import FounderManagementPage from "@/components/admin/founders/FounderManagementPage";
 
 export const metadata = { title: "Founder Management | Proyash Admin" };

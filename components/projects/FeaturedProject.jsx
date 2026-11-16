@@ -15,7 +15,7 @@ export default function FeaturedProject({ project: p }) {
             alt={p.cover?.alt ?? ""}
             priority
             sizes="(min-width: 1024px) 700px, 100vw"
-            className="aspect-[16/10] lg:col-span-7 lg:aspect-auto lg:min-h-[26rem]"
+            className="aspect-16/10 lg:col-span-7 lg:aspect-auto lg:min-h-104"
             fallback={<TreePine size={40} strokeWidth={1.25} aria-hidden="true" className="text-forest/40" />}
           />
           <div className="flex flex-col justify-center p-7 sm:p-10 lg:col-span-5">

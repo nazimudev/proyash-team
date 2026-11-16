@@ -11,9 +11,13 @@ export default function ImpactSection() {
       <Container>
         <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-6">
-            <SectionHeading tone="dark" eyebrow="Why it matters" title="Change Begins When We Care.">
-              No one person can meet every need. When neighbours, students, and volunteers
-              act together, support reaches further and lasts longer.
+            <SectionHeading
+              tone="dark"
+              eyebrow="Why it matters"
+              title="Change Begins When We Care."
+            >
+              No one person can meet every need. When neighbours, students, and
+              volunteers act together, support reaches further and lasts longer.
             </SectionHeading>
 
             <dl className="mt-10 grid gap-x-8 gap-y-7 sm:grid-cols-2">
@@ -22,10 +26,16 @@ export default function ImpactSection() {
                 return (
                   <div key={title}>
                     <dt className="flex items-center gap-2.5 font-bold text-white">
-                      <Icon size={20} aria-hidden="true" className="text-fresh" />
+                      <Icon
+                        size={20}
+                        aria-hidden="true"
+                        className="text-fresh"
+                      />
                       {title}
                     </dt>
-                    <dd className="mt-1.5 pl-[1.875rem] leading-relaxed text-white/70">{text}</dd>
+                    <dd className="mt-1.5 pl-7.5 leading-relaxed text-white/70">
+                      {text}
+                    </dd>
                   </div>
                 );
               })}
@@ -40,7 +50,7 @@ export default function ImpactSection() {
             <Photo
               {...images.impact}
               sizes="(min-width: 1024px) 560px, 100vw"
-              className="leaf aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5]"
+              className="leaf aspect-4/5 sm:aspect-5/4 lg:aspect-4/5"
             />
           </div>
         </div>

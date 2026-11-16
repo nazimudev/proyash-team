@@ -204,7 +204,7 @@ export default function ExpensesTable({
             {rows.map((x) => (
               <tr key={x.id} className="hover:bg-gray-50/60">
                 <td className="whitespace-nowrap px-4 py-3 font-medium text-gray-900">
-                  {x.id}
+                  EX-{x.id}
                 </td>
                 <td className="px-4 py-3 text-gray-900">{x.title}</td>
                 <td className="px-4 py-3">

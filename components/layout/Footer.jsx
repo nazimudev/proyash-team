@@ -5,6 +5,8 @@ import Logo from "@/components/ui/Logo";
 import FacebookIcon from "@/components/ui/FacebookIcon";
 import CurrentYear from "@/components/ui/CurrentYear";
 import { site, navItems, initiatives, links, develop } from "@/data/site";
+import { InstagramIcon, LinkedInIcon } from "../ui/SocialIcons";
+import YouTubeIcon from "../ui/YouTubeIcon";
 
 const linkClass =
   "inline-block py-1.5 text-[15px] text-white/70 transition-colors hover:text-white";
@@ -96,6 +98,42 @@ export default function Footer() {
                   >
                     <FacebookIcon size={16} />
                     Facebook
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={links.linkedin.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${linkClass} inline-flex items-center gap-2`}
+                  >
+                    <LinkedInIcon size={16} />
+                    Linkedin
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={links.instagram.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${linkClass} inline-flex items-center gap-2`}
+                  >
+                    <InstagramIcon size={16} />
+                    Instagram
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={links.youtube.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`${linkClass} inline-flex items-center gap-2`}
+                  >
+                    <YouTubeIcon size={16} />
+                    Youtube
                     <span className="sr-only"> (opens in a new tab)</span>
                   </a>
                 </li>

@@ -86,7 +86,7 @@ export default function Navbar() {
             size="sm"
             className="hidden md:inline-flex bg-forest text-white hover:bg-forest/90"
           >
-            Join Proyash
+            Join
           </Button>
 
           <Button

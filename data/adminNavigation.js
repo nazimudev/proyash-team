@@ -1,3 +1,4 @@
+import { Combine } from "lucide";
 import {
   LayoutDashboard,
   Users,
@@ -15,6 +16,10 @@ import {
   Globe,
   BangladeshiTaka,
   ChartBarDecreasing,
+  Network,
+  Coins,
+  Newspaper,
+  Contact,
 } from "lucide-react";
 
 export const adminNavigation = [
@@ -29,40 +34,34 @@ export const adminNavigation = [
     icon: Users,
     children: [
       {
-        label: "All Members",
-        href: "/admin/members",
-        icon: Users,
-        exact: true,
-      },
-      {
         label: "Add Member",
         href: "/admin/members/create",
         icon: UserPlus,
       },
       {
-        label: "Member Requests",
-        href: "/admin/members/requests",
+        label: "Member List",
+        href: "/admin/members/list",
+        icon: Users,
+      },
+    ],
+  },
+  {
+    label: "Volunteers",
+    icon: HeartHandshake,
+    children: [
+      {
+        label: "All Volunteers",
+        href: "/admin/volunteers",
+        icon: HeartHandshake,
+        exact: true,
+      },
+      {
+        label: "Volunteer Requests",
+        href: "/admin/volunteers/requests",
         icon: ClipboardList,
       },
     ],
   },
-  // {
-  //   label: "Volunteers",
-  //   icon: HeartHandshake,
-  //   children: [
-  //     {
-  //       label: "All Volunteers",
-  //       href: "/admin/volunteers",
-  //       icon: HeartHandshake,
-  //       exact: true,
-  //     },
-  //     {
-  //       label: "Volunteer Requests",
-  //       href: "/admin/volunteers/requests",
-  //       icon: ClipboardList,
-  //     },
-  //   ],
-  // },
   {
     label: "Projects",
     icon: FolderKanban,
@@ -109,8 +108,14 @@ export const adminNavigation = [
     exact: true,
   },
   {
-    label: "Founder",
-    href: "/admin/founder",
+    label: "Blog News",
+    href: "/admin/blog",
+    icon: Newspaper,
+    exact: true,
+  },
+  {
+    label: "Advisor",
+    href: "/admin/advisor",
     icon: UserCog,
     exact: true,
   },
@@ -119,6 +124,24 @@ export const adminNavigation = [
     href: "/admin/messages",
     icon: MessageSquare,
     exact: true,
+  },
+  {
+    label: "Category",
+    icon: Network,
+    children: [
+      {
+        label: "Category",
+        href: "/admin/category",
+        icon: Network,
+        exact: true,
+      },
+      {
+        label: "Expense Category",
+        href: "/admin/category/expense",
+        icon: Coins,
+        exact: true,
+      },
+    ],
   },
   {
     label: "Website",
@@ -134,9 +157,16 @@ export const adminNavigation = [
   },
   {
     label: "Settings",
-    href: "/admin/settings",
     icon: Settings,
-    exact: true,
+    children: [
+      {
+        label: "Contact Settings",
+        href: "/admin/settings/contact",
+        icon: Contact,
+        exact: true,
+      }
+
+    ]
   },
 ];
 

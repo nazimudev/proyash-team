@@ -1,9 +1,21 @@
 import { Clock, CheckCircle2, XCircle } from "lucide-react";
 
 const styles = {
-  pending: { label: "Pending", cls: "bg-amber-50 text-amber-800 ring-amber-200", Icon: Clock },
-  verified: { label: "Verified", cls: "bg-green-50 text-green-800 ring-green-200", Icon: CheckCircle2 },
-  rejected: { label: "Rejected", cls: "bg-red-50 text-red-800 ring-red-200", Icon: XCircle },
+  pending: {
+    label: "Pending",
+    cls: "bg-amber-50 text-amber-800 ring-amber-200",
+    Icon: Clock,
+  },
+  approved: {
+    label: "Approved",
+    cls: "bg-green-50 text-green-800 ring-green-200",
+    Icon: CheckCircle2,
+  },
+  rejected: {
+    label: "Rejected",
+    cls: "bg-red-50 text-red-800 ring-red-200",
+    Icon: XCircle,
+  },
 };
 
 export default function StatusBadge({ status }) {

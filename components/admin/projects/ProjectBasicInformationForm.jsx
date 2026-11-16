@@ -8,6 +8,7 @@ import { FormSection, Field, ctl, controlCls } from "./ProjectFormFields";
 import { PROJECT_FORM_CATEGORIES } from "@/data/projectOptions";
 import { LIMITS, COVER_MAX_BYTES } from "@/lib/projectFormUtils";
 import Image from "next/image";
+import { fetchCategories } from "@/services/projectCategoryService";
 
 export default function ProjectBasicInformationForm({
   values,
@@ -18,6 +19,37 @@ export default function ProjectBasicInformationForm({
   const fileRef = useRef(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const file = values.coverFile;
+
+  const [categories, setCategories] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadCategories() {
+      try {
+        const data = await fetchCategories();
+
+        if (isMounted) {
+          setCategories(
+            data.filter((category) => category.status === "active"),
+          );
+        }
+      } catch (error) {
+        console.error("Failed to load categories:", error);
+      } finally {
+        if (isMounted) {
+          setCategoriesLoading(false);
+        }
+      }
+    }
+
+    loadCategories();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!file || !file.type.startsWith("image/")) {
@@ -63,21 +95,25 @@ export default function ProjectBasicInformationForm({
         />
       </Field>
       <Field
-        name="category"
+        name="project_category_id"
         label="Project category"
         required
-        error={errors.category}
+        error={errors.project_category_id}
       >
         <select
-          {...ctl("category", errors)}
-          value={values.category}
-          onChange={set("category")}
+          {...ctl("project_category_id", errors)}
+          value={values.project_category_id || ""}
+          onChange={set("project_category_id")}
+          disabled={categoriesLoading}
           className={controlCls}
         >
-          <option value="">Select a category</option>
-          {PROJECT_FORM_CATEGORIES.map((c) => (
-            <option key={c} value={c}>
-              {c}
+          <option value="">
+            {categoriesLoading ? "Loading categories..." : "Select a category"}
+          </option>
+
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
             </option>
           ))}
         </select>
@@ -118,8 +154,11 @@ export default function ProjectBasicInformationForm({
             {previewUrl ? (
               <Image
                 src={previewUrl}
-                alt="Selected cover preview"
-                className="h-28 w-44 rounded-lg border border-gray-200 object-cover"
+                alt="Project cover preview"
+                width={500}
+                height={500}
+                className="h-40 w-40 rounded-lg object-cover"
+                unoptimized
               />
             ) : null}
             <div className="space-y-2">

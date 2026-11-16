@@ -33,10 +33,10 @@ export default function FounderMessage({ content, founder }) {
           </blockquote>
 
           <figcaption className="mt-10 flex items-center gap-4 border-t border-white/15 pt-6">
-            <FounderPortrait
+            {/* <FounderPortrait
               portrait={founder.portrait}
               className="h-16 w-16 shrink-0 rounded-full aspect-square!"
-            />
+            /> */}
             <div>
               <p className="text-lg font-semibold">{founder.name}</p>
               <p className="text-emerald-200">{founder.designation}</p>

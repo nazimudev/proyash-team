@@ -37,9 +37,12 @@ export default function InitiativesSection() {
   return (
     <section id="initiatives" className="bg-mist py-20 sm:py-28">
       <Container>
-        <SectionHeading eyebrow="Our initiatives" title="Where We Focus Our Care">
-          Three areas guide the work of Proyash Songgothon, each rooted in the needs of
-          the community around us.
+        <SectionHeading
+          eyebrow="Our initiatives"
+          title="Where We Focus Our Care"
+        >
+          Three areas guide the work of Proyash Songgothon, each rooted in the
+          needs of the community around us.
         </SectionHeading>
 
         <div className="mt-14 grid gap-6 lg:grid-cols-12">
@@ -57,14 +60,20 @@ export default function InitiativesSection() {
                   className={s.photo}
                 />
                 <div className="p-7 sm:p-9">
-                  <span className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-bold ${s.chip}`}>
+                  <span
+                    className={`inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-bold ${s.chip}`}
+                  >
                     <Icon size={16} aria-hidden="true" />
                     {item.label}
                   </span>
-                  <h3 className={`mt-5 font-extrabold leading-tight tracking-tight ${s.title}`}>
+                  <h3
+                    className={`mt-5 font-extrabold leading-tight tracking-tight ${s.title}`}
+                  >
                     {item.title}
                   </h3>
-                  <p className={`mt-3 max-w-lg leading-relaxed ${s.text}`}>{item.description}</p>
+                  <p className={`mt-3 max-w-lg leading-relaxed ${s.text}`}>
+                    {item.description}
+                  </p>
                   <Button href={item.href} variant={s.button} className="mt-6">
                     {item.cta}
                   </Button>

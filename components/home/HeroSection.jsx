@@ -22,29 +22,52 @@ export default function HeroSection() {
               {site.location}
             </p>
 
-            <h1
-              className="rise mt-6 text-balance text-[2.75rem] font-extrabold leading-[1.04] tracking-tight text-ink sm:text-6xl xl:text-7xl"
+            <h3
+              className="rise mt-6 text-balance text-3xl font-extrabold leading-tight tracking-tight text-ink sm:text-4xl xl:text-5xl"
               style={{ "--i": 1 }}
             >
-              Small Acts of Kindness.
+              Small Actions.
               <span className="block text-forest">Lasting Change.</span>
-            </h1>
+            </h3>
 
-            <p
-              className="rise mt-6 max-w-xl text-lg leading-relaxed text-muted"
+            <div
+              className="rise mt-8 max-w-xl rounded-2xl border-l-4 border-forest bg-forest/6 px-6 py-5 sm:px-7 sm:py-6"
               style={{ "--i": 2 }}
             >
-              Proyash Songgothon works to support underprivileged people, help
-              students access educational opportunities, and encourage a greener
-              future through tree plantation initiatives.
+              <span className="mb-3 block text-xs font-bold uppercase tracking-[0.2em] text-forest">
+                Our Belief
+              </span>
+
+              <p className="text-xl font-semibold leading-relaxed tracking-tight text-ink sm:text-2xl">
+                Let our hands reach those in need, our hearts embrace those in
+                pain.
+              </p>
+
+              <p className="mt-3 text-sm text-muted">
+                A belief that inspires every act of kindness.
+              </p>
+            </div>
+
+            <p
+              className="rise mt-4 max-w-xl leading-relaxed text-muted"
+              style={{ "--i": 3 }}
+            >
+              Proyash is a youth-led voluntary social welfare organization
+              dedicated to serving communities, supporting those in need,
+              protecting the environment, and creating meaningful social change.
+              Through volunteerism, collective action, and community engagement,
+              we strive to promote educational and social awareness, strengthen
+              underserved communities, and contribute to better and more
+              accessible healthcare, environmental sustainability, and overall
+              social well-being.
             </p>
 
             <div
               className="rise mt-9 flex flex-col gap-3 sm:flex-row"
               style={{ "--i": 3 }}
             >
-              <Button href="/#initiatives">Our Work</Button>
-              <Button {...links.join} variant="outline">
+              <Button href="/projects">Our Work</Button>
+              <Button {...links.impect} variant="outline">
                 Our Impact
               </Button>
             </div>

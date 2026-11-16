@@ -1,107 +1,86 @@
-/**
- * MANUAL PAYMENT METHODS — public instructions and account details only.
- * Never put PINs, OTPs, passwords or API secrets here (this ships to the browser).
- *
- * Every method is DISABLED and EMPTY. Do not invent account numbers. A method becomes
- * selectable only when `enabled` is true AND its required fields are filled
- * (see isMethodAvailable in lib/payment.js); otherwise it shows "Not yet available".
- *
- * Fill per method:
- *   mobile (bkash, rocket, nagad): accountNumber, accountType ("Personal" | "Merchant" | ...),
- *                                  instructions[] written for THAT provider's real flow
- *   bank:                          bankName, accountHolder, accountNumber, branchName, routingNumber?, instructions[]
- *   cash:                          instructions[] describing how it is documented and verified
- *                                  (do not invent an address or collection procedure)
- *
- * transactionId: how the donor's transaction/reference ID is validated in the form.
- *   `pattern` is a regex string. The default below is deliberately generic (letters, digits, - _ /).
- *   Replace it with each provider's confirmed format before relying on it.
- */
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 const genericTransactionId = {
   required: true,
   label: "Transaction ID",
-  hint: "Copy it from the confirmation you received after paying.",
+  hint: "Copy it from your payment confirmation.",
   minLength: 6,
   maxLength: 40,
   pattern: "^[A-Za-z0-9_/-]+$",
 };
 
-export const paymentMethods = {
-  bkash: {
-    kind: "mobile",
-    enabled: true,
-    displayName: "bKash",
-    accountNumber: "01786368993",
-    accountType: "Personal",
-    instructions: [
-      "Open your bKash app and select Send Money.",
-      "Enter the organization's bKash personal number shown above.",
-      "Enter your donation amount and carefully check the recipient's number before proceeding.",
-      "Confirm the transaction by following the instructions in your bKash app.",
-      "After a successful transaction, copy the Transaction ID (TrxID) from the confirmation screen or SMS.",
-      "Enter your phone number, donation amount, and TrxID in the form below, then submit your donation for verification.",
-      "Your donation will be marked as confirmed after the organization verifies the transaction.",
-    ],
-    needsPhone: true,
-    transactionId: { ...genericTransactionId, label: "bKash transaction ID" },
-  },
-  rocket: {
-    kind: "mobile",
-    enabled: false,
-    displayName: "Rocket",
-    accountNumber: "",
-    accountType: "",
-    instructions: [],
-    needsPhone: true,
-    transactionId: { ...genericTransactionId, label: "Rocket transaction ID" },
-  },
-  nagad: {
-    kind: "mobile",
-    enabled: false,
-    displayName: "Nagad",
-    accountNumber: "",
-    accountType: "",
-    instructions: [],
-    needsPhone: true,
-    transactionId: { ...genericTransactionId, label: "Nagad transaction ID" },
-  },
-  bankTransfer: {
-    kind: "bank",
-    enabled: false,
-    displayName: "Bank Transfer",
-    bankName: "",
-    accountHolder: "",
-    accountNumber: "",
-    branchName: "",
-    routingNumber: "",
-    instructions: [],
-    needsPhone: false,
+function normalizePaymentMethod(method) {
+  const type = method.type;
+
+  return {
+    id: method.id,
+    kind: type,
+    enabled: Boolean(method.is_active),
+
+    displayName: method.name,
+    accountNumber: method.account_number ?? "",
+    accountHolder: method.account_holder ?? "",
+
+    // These fields are not currently returned by the API.
+    accountType: method.account_type ?? "",
+    bankName: method.bank_name ?? "",
+    branchName: method.branch_name ?? "",
+    routingNumber: method.routing_number ?? "",
+
+    description: method.description ?? "",
+
+    instructions: Array.isArray(method.steps)
+      ? method.steps
+          .map((step) => (typeof step === "string" ? step : step?.text))
+          .filter(Boolean)
+      : [],
+
+    needsPhone: Boolean(method.requires_phone),
+    requiresPaymentProof: Boolean(method.requires_payment_proof),
+
     transactionId: {
       ...genericTransactionId,
-      label: "Bank transaction or reference number",
+      required: Boolean(method.requires_transaction_id),
+      label: `${method.name} transaction ID`,
     },
-  },
-  cash: {
-    kind: "cash",
-    enabled: false,
-    displayName: "Cash or Other Approved Method",
-    instructions: [],
-    needsPhone: true,
-    transactionId: {
-      required: false,
-      label: "Receipt or reference (if any)",
-      hint: "",
-      minLength: 0,
-      maxLength: 40,
-      pattern: "^[A-Za-z0-9_/ -]*$",
-    },
-  },
-};
 
-export const paymentMethodOrder = [
-  "bkash",
-  "rocket",
-  "nagad",
-  "bankTransfer",
-  "cash",
-];
+    displayOrder: method.display_order ?? 0,
+  };
+}
+
+export async function fetchPublicPaymentMethods() {
+  const response = await fetch(`${API_URL}/public/active-payment-methods`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+    },
+    cache: "no-store",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to load payment methods");
+  }
+
+  const result = await response.json();
+
+  const methods = Array.isArray(result.data) ? result.data : [];
+
+  const sortedMethods = methods
+    .filter((method) => method.is_active)
+    .sort((a, b) => (a.display_order ?? 0) - (b.display_order ?? 0));
+
+  const paymentMethods = {};
+  const paymentMethodOrder = [];
+
+  for (const method of sortedMethods) {
+    const key = String(method.id);
+
+    paymentMethods[key] = normalizePaymentMethod(method);
+    paymentMethodOrder.push(key);
+  }
+
+  return {
+    paymentMethods,
+    paymentMethodOrder,
+  };
+}

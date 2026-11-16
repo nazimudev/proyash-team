@@ -1,36 +1,26 @@
+// src/components/contact/ContactCTA.jsx  (server component)
 import Link from "next/link";
-import { cta } from "@/data/contact";
+import { ArrowRight } from "lucide-react";
 
-export default function ContactCTA() {
+// VERIFY: change href to your real projects/activities route.
+export default function ContactCTA({ href = "/impact" }) {
   return (
-    <section
-      aria-labelledby="cta-heading"
-      className="bg-white px-4 py-12 sm:px-6 sm:py-16 lg:px-8"
-    >
-      <div className="mx-auto max-w-6xl overflow-hidden rounded-3xl bg-[#1F4D2B] px-6 py-12 text-center text-white sm:px-12 sm:py-16">
-        <h2
-          id="cta-heading"
-          className="text-2xl font-bold sm:text-3xl lg:text-4xl"
-        >
-          {cta.title}
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="rounded-3xl bg-forest px-6 py-14 text-center text-white sm:px-12">
+        <h2 className="text-3xl font-bold sm:text-4xl">
+          Let&apos;s Make a Difference Together
         </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-emerald-50/90">
-          {cta.description}
+        <p className="mx-auto mt-4 max-w-2xl text-green-100">
+          Your questions, ideas, and support can help us create meaningful
+          change in our community.
         </p>
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link
-            href={cta.primary.href}
-            className="w-full rounded-xl bg-white px-6 py-3 text-sm font-semibold text-[#1F4D2B] transition hover:bg-emerald-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:w-auto"
-          >
-            {cta.primary.label}
-          </Link>
-          <Link
-            href={cta.secondary.href}
-            className="w-full rounded-xl border border-white/40 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:w-auto"
-          >
-            {cta.secondary.label}
-          </Link>
-        </div>
+        <Link
+          href={href}
+          className="mt-8 inline-flex items-center gap-2 rounded-xl bg-white px-6 py-3 text-sm font-semibold text-forest transition hover:bg-green-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-forest"
+        >
+          Explore Our Impact{" "}
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </Link>
       </div>
     </section>
   );

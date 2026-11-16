@@ -1,3 +1,5 @@
+export const instant = false;
+
 import AddProjectPage from "@/components/admin/projects/AddProjectPage";
 
 export const metadata = { title: "Add Project | Proyash Admin" };

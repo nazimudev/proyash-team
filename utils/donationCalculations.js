@@ -42,7 +42,7 @@ function inPeriod(dateIso, period) {
 // A donation is publicly listable only when confirmed, not refunded, and approved for publication.
 export function isPubliclyDisplayable(r) {
   return (
-    r.verificationStatus === "confirmed" &&
+    r.verificationStatus === "approve" &&
     !r.refunded &&
     r.publicationApproved === true
   );

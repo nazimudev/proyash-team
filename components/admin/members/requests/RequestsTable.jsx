@@ -7,19 +7,25 @@ import Image from "next/image";
 
 export function Avatar({ app, size = "h-10 w-10" }) {
   const [failed, setFailed] = useState(false);
-  if (app.photo && !failed) {
+
+  const photo = app.profile_photo_url;
+
+  if (photo && !failed) {
     return (
       <Image
-        src={app.photo}
-        alt=""
+        src={photo}
+        alt={app.full_name_en || "Member"}
+        width={80}
+        height={80}
+        unoptimized
         onError={() => setFailed(true)}
         className={`${size} shrink-0 rounded-full border border-gray-200 object-cover`}
       />
     );
   }
+
   return (
     <span
-      aria-hidden="true"
       className={`${size} flex shrink-0 items-center justify-center rounded-full bg-green-100 text-sm font-semibold text-green-700`}
     >
       {getInitials(app.full_name_en)}
@@ -40,8 +46,9 @@ export function StatusBadge({ status }) {
 
 const Missing = () => <span className="text-gray-400">Not provided</span>;
 
-function Actions({ app, onView, onReview }) {
+function Actions({ app, onView, onReview, onDelete }) {
   const pending = app.status === "pending";
+
   return (
     <div className="flex flex-wrap justify-end gap-2">
       <button
@@ -51,17 +58,24 @@ function Actions({ app, onView, onReview }) {
       >
         View Application
       </button>
-      <button
-        type="button"
-        onClick={() => onReview(app)}
-        disabled={!pending}
-        title={
-          pending ? undefined : "Only pending applications can be reviewed"
-        }
-        className={`${btnPrimary} px-3 py-1.5`}
-      >
-        Review Request
-      </button>
+
+      {pending ? (
+        <button
+          type="button"
+          onClick={() => onReview(app)}
+          className={`${btnPrimary} px-3 py-1.5`}
+        >
+          Review Request
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={() => onDelete(app)}
+          className="rounded-lg bg-red-50 px-3 py-1.5 text-sm font-medium text-red-600 hover:bg-red-100"
+        >
+          Delete
+        </button>
+      )}
     </div>
   );
 }
@@ -75,7 +89,7 @@ const HEADERS = [
   "Actions",
 ];
 
-export default function RequestsTable({ applications, onView, onReview }) {
+export default function RequestsTable({ applications, onView, onReview, onDelete }) {
   return (
     <>
       <div className="hidden overflow-x-auto md:block">
@@ -102,9 +116,9 @@ export default function RequestsTable({ applications, onView, onReview }) {
                     <Avatar app={x} />
                     <div className="min-w-0">
                       <p className="truncate font-medium text-gray-900">
-                        {x.full_name_en}
+                        {x.user.name}
                       </p>
-                      <p className="text-xs text-gray-500">{x.id}</p>
+                      {/* <p className="text-xs text-gray-500">{x.id}</p> */}
                     </div>
                   </div>
                 </td>
@@ -112,16 +126,21 @@ export default function RequestsTable({ applications, onView, onReview }) {
                   {x.mobile_number ?? <Missing />}
                 </td>
                 <td className="max-w-56 wrap-break-word px-4 py-3 text-gray-700">
-                  {x.email ?? <Missing />}
+                  {x.user.email ?? <Missing />}
                 </td>
                 <td className="whitespace-nowrap px-4 py-3 text-gray-700">
-                  {formatDate(x.submitted_at)}
+                  {formatDate(x.created_at)}
                 </td>
                 <td className="px-4 py-3">
-                  <StatusBadge status={x.status} />
+                  <StatusBadge status={x.membership_status} />
                 </td>
                 <td className="px-4 py-3">
-                  <Actions app={x} onView={onView} onReview={onReview} />
+                  <Actions
+                    app={x}
+                    onView={onView}
+                    onReview={onReview}
+                    onDelete={onDelete}
+                  />
                 </td>
               </tr>
             ))}
@@ -155,7 +174,12 @@ export default function RequestsTable({ applications, onView, onReview }) {
                 </p>
               </div>
             </div>
-            <Actions app={x} onView={onView} onReview={onReview} />
+            <Actions
+              app={x}
+              onView={onView}
+              onReview={onReview}
+              onDelete={onDelete}
+            />
           </li>
         ))}
       </ul>

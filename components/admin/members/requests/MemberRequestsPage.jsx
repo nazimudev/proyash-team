@@ -32,6 +32,7 @@ import {
   fetchMemberApplications,
   approveApplication,
   rejectApplication,
+  getDeleteMember
 } from "@/services/memberRequestService";
 
 export default function MemberRequestsPage() {
@@ -164,24 +165,40 @@ export default function MemberRequestsPage() {
     !filters.search.trim() &&
     filters.status === "pending";
 
+
+  const handleDelete = async (app) => {
+    const confirmed = window.confirm(
+      `Are you sure you want to delete ${app.full_name_en}'s application?`,
+    );
+
+    if (!confirmed) return;
+
+    try {
+      const result = await getDeleteMember(app.id);
+
+      console.log("Delete response:", result);
+
+      window.alert("Member deleted successfully!");
+
+      load();
+    } catch (error) {
+      console.error("Delete failed:", error);
+
+      window.alert(error?.message || "Failed to delete member.");
+    }
+  };
+
   return (
     <div>
       <nav aria-label="Breadcrumb" className="mb-2 text-sm text-gray-500">
         Dashboard <span aria-hidden="true">/</span> Members{" "}
         <span aria-hidden="true">/</span>{" "}
-        <span className="text-gray-900">Member Requests</span>
+        <span className="text-gray-900">Member List</span>
       </nav>
       <PageHeader
-        title="Member Requests"
+        title="Member List"
         description="Review and verify membership applications submitted through the website."
       />
-
-      <p className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
-        Sample data only. These are fictional applicants and the counts below
-        are sample counts. Approve and reject are not connected to a backend
-        yet, so they can&rsquo;t save a decision.
-      </p>
-
       <div className="mb-6 grid gap-4 sm:grid-cols-3">
         <StatCard
           label="Pending Requests"
@@ -312,6 +329,7 @@ export default function MemberRequestsPage() {
               applications={rows}
               onView={(a) => setDetail({ id: a.id, mode: "view" })}
               onReview={(a) => setDetail({ id: a.id, mode: "review" })}
+              onDelete={handleDelete}
             />
             <div className="flex flex-col gap-3 border-t border-gray-100 px-4 py-3 text-sm text-gray-600 sm:flex-row sm:items-center sm:justify-between">
               <p>

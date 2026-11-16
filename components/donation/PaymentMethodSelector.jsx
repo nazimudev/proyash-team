@@ -1,17 +1,37 @@
-import { Smartphone, Landmark, Banknote } from "lucide-react";
-
-const icons = { mobile: Smartphone, bank: Landmark, cash: Banknote };
+import {
+  Banknote,
+  Smartphone,
+  Wallet,
+  CreditCard,
+  Landmark,
+} from "lucide-react";
+const icons = {
+  mobile: Smartphone,
+  bkash: Smartphone,
+  nagad: Smartphone,
+  rocket: Smartphone,
+  bank: Landmark,
+  cash: Banknote,
+};
 
 /** Radio-style cards. Unavailable methods are disabled and labelled, so they can't be mistaken for working options. */
-export default function PaymentMethodSelector({ methods, value, onChange, error }) {
+export default function PaymentMethodSelector({
+  methods,
+  value,
+  onChange,
+  error,
+}) {
   return (
     <fieldset aria-describedby={error ? "paymentMethod-error" : undefined}>
       <legend className="text-sm font-bold text-ink">
-        Payment method <span aria-hidden="true" className="text-forest">*</span>
+        Payment method{" "}
+        <span aria-hidden="true" className="text-forest">
+          *
+        </span>
       </legend>
       <div className="mt-2 grid gap-3 sm:grid-cols-2">
         {methods.map((m) => {
-          const Icon = icons[m.kind];
+          const Icon = icons[String(m.kind).toLowerCase()] || CreditCard;
           const selected = value === m.id;
           return (
             <label
@@ -33,17 +53,41 @@ export default function PaymentMethodSelector({ methods, value, onChange, error 
                 onChange={() => onChange(m.id)}
                 className="sr-only"
               />
-              <Icon size={20} aria-hidden="true" className={m.available ? "text-forest" : "text-muted"} />
+              <Icon
+                size={20}
+                aria-hidden="true"
+                className={m.available ? "text-forest" : "text-muted"}
+              />
               <span className="min-w-0 flex-1">
-                <span className={`block text-sm font-bold ${m.available ? "text-ink" : "text-muted"}`}>{m.displayName}</span>
-                {!m.available && <span className="block text-xs font-semibold text-muted">Not yet available</span>}
+                <span
+                  className={`block text-sm font-bold ${m.available ? "text-ink" : "text-muted"}`}
+                >
+                  {m.displayName}
+                </span>
+                {!m.available && (
+                  <span className="block text-xs font-semibold text-muted">
+                    Not yet available
+                  </span>
+                )}
               </span>
-              {selected && <span aria-hidden="true" className="size-3 rounded-full bg-forest" />}
+              {selected && (
+                <span
+                  aria-hidden="true"
+                  className="size-3 rounded-full bg-forest"
+                />
+              )}
             </label>
           );
         })}
       </div>
-      {error && <p id="paymentMethod-error" className="mt-1.5 text-sm font-semibold text-[#b42318]">{error}</p>}
+      {error && (
+        <p
+          id="paymentMethod-error"
+          className="mt-1.5 text-sm font-semibold text-[#b42318]"
+        >
+          {error}
+        </p>
+      )}
     </fieldset>
   );
 }

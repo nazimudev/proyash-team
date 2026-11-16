@@ -6,12 +6,13 @@ import TeamCategoryFilter from "@/components/team/TeamCategoryFilter";
 import TeamSection from "@/components/team/TeamSection";
 import { teamCategories } from "@/data/teamMembers";
 
-/** The only interactive part of the page: category filter + the two profile sections. */
-export default function TeamDirectory({ members, usingSamples }) {
+export default function TeamDirectory({ members = [] }) {
   const [category, setCategory] = useState("all");
 
   const official = members.filter((m) => m.memberType === "official");
+
   const advisors = members.filter((m) => m.memberType === "advisor");
+
   const counts = {
     all: members.length,
     official: official.length,
@@ -19,7 +20,9 @@ export default function TeamDirectory({ members, usingSamples }) {
   };
 
   const showOfficial = category === "all" || category === "official";
+
   const showAdvisors = category === "all" || category === "advisor";
+
   const visible =
     (showOfficial ? official.length : 0) + (showAdvisors ? advisors.length : 0);
 
@@ -36,20 +39,13 @@ export default function TeamDirectory({ members, usingSamples }) {
           value={category}
           onChange={setCategory}
         />
+
         <p className="sr-only" role="status" aria-live="polite">
           Showing {visible} {visible === 1 ? "profile" : "profiles"}.
         </p>
 
-        {usingSamples && (
-          <p className="mt-6 rounded-xl border border-dashed border-muted/50 bg-white px-4 py-3 text-sm text-muted">
-            Sample profiles are shown to preview the layout. They are not real
-            members. Add real profiles in{" "}
-            <code className="font-semibold text-ink">data/teamMembers.js</code>.
-          </p>
-        )}
-
         <div key={category} className="rise mt-12 space-y-20 sm:space-y-24">
-          {showOfficial && (
+          {showOfficial && official.length > 0 && (
             <TeamSection
               id="official-members"
               title="Our Official Members"
@@ -57,7 +53,8 @@ export default function TeamDirectory({ members, usingSamples }) {
               members={official}
             />
           )}
-          {showAdvisors && (
+
+          {showAdvisors && advisors.length > 0 && (
             <TeamSection
               id="advisors"
               title="Our Advisors"
@@ -65,6 +62,12 @@ export default function TeamDirectory({ members, usingSamples }) {
               members={advisors}
               variant="advisor"
             />
+          )}
+
+          {visible === 0 && (
+            <p className="py-16 text-center text-muted">
+              No team members available at the moment.
+            </p>
           )}
         </div>
       </Container>

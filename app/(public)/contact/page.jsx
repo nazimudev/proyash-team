@@ -1,30 +1,43 @@
-import ContactCTA from "@/components/contact/ContactCTA";
-import ContactForm from "@/components/contact/ContactForm";
+// src/app/(public)/contact/page.jsx  (server component)
 import ContactHero from "@/components/contact/ContactHero";
 import ContactInfo from "@/components/contact/ContactInfo";
+import ContactForm from "@/components/contact/ContactForm";
+import ContactMap from "@/components/contact/ContactMap";
+import ContactCTA from "@/components/contact/ContactCTA";
+import { getContactSettings } from "@/services/contactApi";
 
 export const metadata = {
-  title: "Contact Us | Proyash",
+  title: "Contact Us | Proyash Songgothon",
   description:
-    "Get in touch with Proyash in Madhupur, Tangail. Ask a question, propose an initiative, discuss a partnership, or find out how to volunteer.",
+    "Get in touch with Proyash Songgothon. Send us your questions, ideas, and suggestions.",
 };
 
-const ContactPage = () => {
+export default async function ContactPage() {
+  const settings = await getContactSettings();
+
   return (
-    <main className="min-h-screen pt-10 overflow-x-hidden bg-white">
+    <main>
       <ContactHero />
-      <ContactInfo />
+      <ContactInfo settings={settings} />
+
       <section
-        aria-label="Send us a message"
-        className="bg-white py-12 sm:py-16"
+        aria-labelledby="contact-form-heading"
+        className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8"
       >
-        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:max-w-6xl lg:px-8">
-            <ContactForm />
-        </div>
+        <h2
+          id="contact-form-heading"
+          className="mb-6 text-2xl font-bold text-gray-900"
+        >
+          Send us a message
+        </h2>
+        <ContactForm />
       </section>
-      <ContactCTA />
+
+      <ContactMap mapUrl={settings.mapUrl} />
+
+      <div className="py-16">
+        <ContactCTA />
+      </div>
     </main>
   );
-};
-
-export default ContactPage;
+}
