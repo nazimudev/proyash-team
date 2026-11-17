@@ -252,7 +252,7 @@ export const founder = [
     name: "Md Selim Talukdar",
     designation: "Founder & General Secretary",
     portrait: {
-      src: "/images/about/NWS00881.jpg", // e.g. "/images/founder.jpg" (file must exist in /public)
+      src: "/images/about/selim.jpg", // e.g. "/images/founder.jpg" (file must exist in /public)
       width: 800,
       height: 1000,
       alt: "Portrait of the founder of Proyash", // update with the founder's name
