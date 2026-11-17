@@ -21,6 +21,11 @@ export const metadata = {
     type: "website",
     locale: "en_BD",
   },
+  icons: {
+    icon: "/images/favicon.png",
+    shortcut: "/images/favicon.png",
+    apple: "/images/favicon.png",
+  },
 };
 
 export const viewport = {
