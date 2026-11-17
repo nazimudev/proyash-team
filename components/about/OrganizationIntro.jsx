@@ -33,7 +33,7 @@ export default function OrganizationIntro({ content }) {
           </div>
         </div>
 
-        <ul className="mt-14 grid gap-5 sm:grid-cols-3">
+        {/* <ul className="mt-14 grid gap-5 sm:grid-cols-3">
           {content.highlights.map((item) => {
             const Icon = getIcon(item.icon);
             return (
@@ -53,7 +53,7 @@ export default function OrganizationIntro({ content }) {
               </li>
             );
           })}
-        </ul>
+        </ul> */}
       </div>
     </section>
   );
