@@ -206,6 +206,8 @@ export const founder = [
     id: 1,
     name: "Alif Siddique Taj",
     designation: "Founder & President",
+    message:
+      "Alif Siddiqui Taj is a founder of Proyash who has been committed to humanitarian service and organizational development since its inception. He believes in the power of collective efforts to bring positive change to society.",
     portrait: {
       src: "/images/about/taz1.jpeg", // e.g. "/images/founder.jpg" (file must exist in /public)
       width: 800,
@@ -231,6 +233,8 @@ export const founder = [
     id: 2,
     name: "Md Selim Talukdar",
     designation: "Founder & General Secretary",
+    message:
+      "Selim Talukdar is a founder of Proyash, driven by a passion for humanitarian service, youth leadership, and sustainable community development. He believes in empowering young people to turn ideas into meaningful actions.",
     portrait: {
       src: "/images/about/selim.jpg", // e.g. "/images/founder.jpg" (file must exist in /public)
       width: 800,

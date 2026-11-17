@@ -26,6 +26,10 @@ function FounderCard({ content }) {
           {content.designation}
         </p>
 
+        <p className="mt-1 text-sm font-medium text-gray-700 dark:text-amber-300">
+          {content.message}
+        </p>
+
         <div className="mt-6 space-y-4 text-base leading-8 text-neutral-700 dark:text-neutral-300">
           {content.bio.map((p, i) => (
             <p key={i}>{p}</p>
@@ -69,7 +73,7 @@ export default function FounderProfile({ content }) {
         <SectionHeading
           id="founder-heading"
           title="Meet Our Founders"
-          subtitle="The people behind Proyash Songgothon and its vision for a stronger community."
+          subtitle="Proyash Team was founded in May 2024 by two young individuals who shared a vision of serving humanity and creating positive social change."
         />
 
         <div className="mt-12 grid gap-8 md:grid-cols-2">

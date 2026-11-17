@@ -90,6 +90,7 @@ const HEADERS = [
 ];
 
 export default function RequestsTable({ applications, onView, onReview, onDelete }) {
+  console.log(applications);
   return (
     <>
       <div className="hidden overflow-x-auto md:block">
@@ -132,7 +133,7 @@ export default function RequestsTable({ applications, onView, onReview, onDelete
                   {formatDate(x.created_at)}
                 </td>
                 <td className="px-4 py-3">
-                  <StatusBadge status={x.membership_status} />
+                  <StatusBadge status={x.status} />
                 </td>
                 <td className="px-4 py-3">
                   <Actions
