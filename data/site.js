@@ -19,7 +19,7 @@ export const site = {
 
 export const develop = {
   company: "miniwix",
-  url: "https://miniwix.com",
+  url: "https://miniwix.vercel.app/",
 };
 
 /**

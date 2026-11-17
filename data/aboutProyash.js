@@ -1,23 +1,3 @@
-/**
- * ============================================================================
- * data/aboutProyash.js — single source of truth for the About page content.
- * ============================================================================
- * Every Bengali string shown on /about lives here. Edit this file only.
- *
- * IMPORTANT — what must be supplied by the real organisation:
- *   1. founder.name, founder.designation, founder.bio, founder.purposeNote
- *   2. founder.portrait (put a real file in /public and set src/width/height)
- *   3. founder.socialLinks (only add REAL urls; empty array hides the row)
- *   4. founderMessage.paragraphs (the founder's own words)
- *   5. Review/approve vision, mission, goals, values, commitments
- *      (each carries `isDraft: true` until you flip it to false)
- *   6. All `href` values marked TODO — confirm they match real routes
- *
- * Icons are referenced by string key (see components/about/iconMap.js)
- * so this file stays plain, serialisable data.
- * ============================================================================
- */
-
 export const aboutMeta = {
   title: "About Us | Proyash",
   description:

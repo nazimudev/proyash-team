@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { MapPin } from "lucide-react";
 import Container from "@/components/ui/Container";
-import Logo from "@/components/ui/Logo";
 import FacebookIcon from "@/components/ui/FacebookIcon";
 import CurrentYear from "@/components/ui/CurrentYear";
 import { site, navItems, initiatives, links, develop } from "@/data/site";
 import { InstagramIcon, LinkedInIcon } from "../ui/SocialIcons";
 import YouTubeIcon from "../ui/YouTubeIcon";
+import LogoFooter from "../ui/LogoFooter";
 
 const linkClass =
   "inline-block py-1.5 text-[15px] text-white/70 transition-colors hover:text-white";
@@ -17,7 +17,7 @@ export default function Footer() {
       <Container className="py-16 sm:py-20">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <Logo tone="dark" />
+            <LogoFooter tone="dark" />
             <p className="mt-6 max-w-sm leading-relaxed text-white/70">
               A social welfare organization supporting people in need, helping
               students move forward, and growing a greener future.
