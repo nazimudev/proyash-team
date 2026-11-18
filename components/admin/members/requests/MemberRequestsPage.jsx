@@ -81,8 +81,10 @@ export default function MemberRequestsPage() {
   const hasFilters =
     JSON.stringify(filters) !== JSON.stringify(EMPTY_REQUEST_FILTERS);
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+
   const safePage = Math.min(page, totalPages);
   const start = (safePage - 1) * PAGE_SIZE;
+
   const rows = filtered.slice(start, start + PAGE_SIZE);
 
   const setFilter = (k) => (e) => {

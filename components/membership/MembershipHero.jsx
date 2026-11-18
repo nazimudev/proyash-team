@@ -13,18 +13,24 @@ export default function MembershipHero() {
               <span aria-hidden="true" className="h-px w-8 bg-current" />
               {c.eyebrow}
             </p>
-            <h1 className="mt-4 max-w-2xl text-balance text-4xl font-extrabold leading-[1.06] tracking-tight text-ink sm:text-5xl">{c.title}</h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">{c.text}</p>
-            <p className="mt-5 text-sm text-muted">
-              Already applied or a member?{" "}
-              <Link href="/login" className="font-semibold text-forest underline underline-offset-4">Log in</Link>
+            <h1 className="mt-4 max-w-2xl text-balance text-4xl font-extrabold leading-[1.06] tracking-tight text-ink sm:text-5xl">
+              {c.title}
+            </h1>
+            <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted">
+              {c.text}
             </p>
           </div>
           <div aria-hidden="true" className="hidden lg:col-span-4 lg:block">
             <div className="mx-auto grid max-w-[16rem] grid-cols-2 gap-3">
-              <span className="leaf-sm grid aspect-square place-items-center bg-forest"><HeartHandshake size={36} className="text-white" /></span>
-              <span className="leaf-sm mt-8 grid aspect-square place-items-center bg-mist"><Users size={34} className="text-forest" /></span>
-              <span className="leaf-sm -mt-4 grid aspect-square place-items-center bg-fresh/70"><Sprout size={34} className="text-deep" /></span>
+              <span className="leaf-sm grid aspect-square place-items-center bg-forest">
+                <HeartHandshake size={36} className="text-white" />
+              </span>
+              <span className="leaf-sm mt-8 grid aspect-square place-items-center bg-mist">
+                <Users size={34} className="text-forest" />
+              </span>
+              <span className="leaf-sm -mt-4 grid aspect-square place-items-center bg-fresh/70">
+                <Sprout size={34} className="text-deep" />
+              </span>
             </div>
           </div>
         </div>

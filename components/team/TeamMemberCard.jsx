@@ -23,14 +23,20 @@ function validUrl(value) {
   }
 }
 
+
 function initials(name) {
+  if (typeof name !== "string" || !name.trim()) {
+    return "U";
+  }
+
   return name
+    .trim()
     .split(/\s+/)
-    .filter(Boolean)
     .slice(0, 2)
     .map((part) => part[0].toUpperCase())
     .join("");
 }
+
 
 const badge = {
   official: { label: "Official Member", className: "bg-mist text-forest" },

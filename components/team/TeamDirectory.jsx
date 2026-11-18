@@ -5,18 +5,24 @@ import Container from "@/components/ui/Container";
 import TeamCategoryFilter from "@/components/team/TeamCategoryFilter";
 import TeamSection from "@/components/team/TeamSection";
 import { teamCategories } from "@/data/teamMembers";
+import { getPublicTeamMembers } from "@/services/teamApi";
 
-export default function TeamDirectory({ members = [] }) {
+export default function TeamDirectory({ members, totalMembers = 0 }) {
   const [category, setCategory] = useState("all");
 
+
   const official = members.filter((m) => m.memberType === "official");
+
+  console.log("DIRECTORY MEMBER:", official[0]);
+  console.log("DIRECTORY NAME:", official[0]?.name);
 
   const advisors = members.filter((m) => m.memberType === "advisor");
 
   const counts = {
-    all: members.length,
-    official: official.length,
-    advisor: advisors.length,
+    all: totalMembers,
+    official: members.filter((member) => member.memberType === "official")
+      .length,
+    advisor: members.filter((member) => member.memberType === "advisor").length,
   };
 
   const showOfficial = category === "all" || category === "official";

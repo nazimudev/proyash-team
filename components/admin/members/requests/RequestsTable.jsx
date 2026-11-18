@@ -4,6 +4,7 @@ import { useState } from "react";
 import { STATUS_META, formatDate, getInitials } from "@/lib/memberRequestUtils";
 import { btnPrimary, btnSecondary } from "./ModalShell";
 import Image from "next/image";
+import { Pen } from "lucide-react";
 
 export function Avatar({ app, size = "h-10 w-10" }) {
   const [failed, setFailed] = useState(false);
@@ -56,7 +57,15 @@ function Actions({ app, onView, onReview, onDelete }) {
         onClick={() => onView(app)}
         className={`${btnSecondary} px-3 py-1.5`}
       >
-        View Application
+        View
+      </button>
+
+      <button
+        type="button"
+        onClick={() => onView(app)}
+        className={`${btnPrimary} px-3 py-1.5`}
+      >
+        Edit
       </button>
 
       {pending ? (

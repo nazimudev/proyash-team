@@ -1,12 +1,3 @@
-/**
- * Single source of truth for homepage content.
- * Everything here is plain, serializable data so each list can later be
- * replaced by a Laravel REST API response with the same field names.
- *
- * Nothing in this file is a verified statistic. No numbers, dates, people,
- * or registration details are invented.
- */
-
 export const site = {
   name: "Proyash",
   tagline: "Small Actions. Lasting Change.",
@@ -22,16 +13,11 @@ export const develop = {
   url: "https://miniwix.vercel.app/",
 };
 
-/**
- * Destinations for CTAs. Dedicated pages (About, Projects, Gallery,
- * volunteer registration, contact form) do not exist yet, so these point at
- * on-page anchors or the official Facebook page. When a page ships, change
- * the href here and every button updates.
- */
+
 export const links = {
   join: { href: "/volunteer" },
-  joinAction: { href: site.facebookUrl, external: true },
-  about: { href: site.facebookUrl, external: true },
+  joinAction: { href: "/volunteer", external: true },
+  about: { href: "/about", external: true },
   projects: { href: "/projects", external: true },
   gallery: { href: site.facebookUrl, external: true },
   contact: { href: site.facebookUrl, external: true },
@@ -100,9 +86,30 @@ export const images = {
 };
 
 export const focusAreas = [
-  { icon: "HeartHandshake", label: "Community support" },
-  { icon: "Sprout", label: "Tree plantation" },
-  { icon: "GraduationCap", label: "Educational support" },
+  {
+    icon: "GraduationCap",
+    label: "Education and Awareness",
+  },
+  {
+    icon: "Sprout",
+    label: "Healthcare and Public Health",
+  },
+  {
+    icon: "HeartHandshake",
+    label: "Humanitarian Assistance and Social Welfare",
+  },
+  {
+    icon: "Sprout",
+    label: "Environmental Conservation and Climate Initiatives",
+  },
+  {
+    icon: "UserGroup",
+    label: "Youth Development and Leadership",
+  },
+  {
+    icon: "UserStar",
+    label: "Equality and Social Inclusion",
+  },
 ];
 
 export const initiatives = [

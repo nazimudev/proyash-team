@@ -5,6 +5,7 @@ import FacebookIcon from "@/components/ui/FacebookIcon";
 import { site, links } from "@/data/site";
 import Link from "next/link";
 import YouTubeIcon from "../ui/YouTubeIcon";
+import { InstagramIcon, LinkedInIcon } from "../ui/SocialIcons";
 
 export default function ContactSection() {
   return (
@@ -16,8 +17,8 @@ export default function ContactSection() {
             title="Stay Connected with Proyash Team."
             className="lg:col-span-6"
           >
-            Follow our latest activities on Facebook, or get in touch to learn
-            how you can take part.
+            Follow our latest activities on our all social media account, or get
+            in touch to learn how you can take part.
           </SectionHeading>
 
           <div className="lg:col-span-5 lg:col-start-8">
@@ -66,6 +67,46 @@ export default function ContactSection() {
                     <p className="text-sm font-bold text-ink">Youtube</p>
                     <p className="mt-0.5 text-muted">
                       youtube.com/@proyash_team
+                    </p>
+                    <span className="sr-only">(opens in a new tab)</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={links.linkedin.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-4 p-5 transition-colors hover:bg-mist/60 sm:p-6"
+                >
+                  <LinkedInIcon
+                    size={22}
+                    className="mt-0.5 shrink-0 text-forest"
+                  />
+                  <div>
+                    <p className="text-sm font-bold text-ink">Linkedin</p>
+                    <p className="mt-0.5 text-muted">
+                      linkedin.com/company/proyash-team
+                    </p>
+                    <span className="sr-only">(opens in a new tab)</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={links.instagram.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-4 p-5 transition-colors hover:bg-mist/60 sm:p-6"
+                >
+                  <InstagramIcon
+                    size={22}
+                    className="mt-0.5 shrink-0 text-forest"
+                  />
+                  <div>
+                    <p className="text-sm font-bold text-ink">Instagram</p>
+                    <p className="mt-0.5 text-muted">
+                      instagram.com/proyash_team
                     </p>
                     <span className="sr-only">(opens in a new tab)</span>
                   </div>

@@ -15,15 +15,25 @@ export default function ErrorSummary({ errors, labels, innerRef }) {
   }
 
   return (
-    <div ref={innerRef} tabIndex={-1} role="alert" className="rounded-xl border border-[#b42318]/40 bg-[#fef3f2] p-5 text-[#7a271a]">
+    <div
+      ref={innerRef}
+      tabIndex={-1}
+      role="alert"
+      className="rounded-xl border border-[#b42318]/40 bg-[#fef3f2] p-5 text-[#7a271a]"
+    >
       <p className="flex items-center gap-2 font-extrabold">
         <TriangleAlert size={18} aria-hidden="true" />
-        Please fix the following {entries.length === 1 ? "problem" : "problems"}:
+        Please fix the following {entries.length === 1 ? "problem" : "problems"}
+        :
       </p>
       <ul className="mt-3 list-disc space-y-1 pl-6 text-sm">
         {entries.map(([name, msg]) => (
           <li key={name}>
-            <a href={`#${name}`} onClick={(e) => jump(e, name)} className="font-semibold underline underline-offset-2">
+            <a
+              href={`#${name}`}
+              onClick={(e) => jump(e, name)}
+              className="font-semibold underline underline-offset-2"
+            >
               {labels[name] ?? name}
             </a>
             : {msg}

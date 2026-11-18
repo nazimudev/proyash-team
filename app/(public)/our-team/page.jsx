@@ -11,18 +11,30 @@ export const metadata = {
 };
 
 export default async function TeamPage() {
-
   let members = [];
+  let totalMembers = 0;
 
   try {
-    const [memberData, advisorData] = await Promise.all([
-      getPublicTeamMembers(),
+    const [memberResponse, advisorResponse] = await Promise.all([
+      getPublicTeamMembers(1),
       getPublicAdvisors(),
     ]);
 
+    const memberData = Array.isArray(memberResponse?.data)
+      ? memberResponse.data
+      : [];
+
+    totalMembers = memberResponse?.pagination?.total ?? 0;
+
     members = [
       ...mapOfficialMembers(memberData),
-      ...mapAdvisors(advisorData),
+      ...mapAdvisors(
+        Array.isArray(advisorResponse?.data)
+          ? advisorResponse.data
+          : Array.isArray(advisorResponse)
+            ? advisorResponse
+            : [],
+      ),
     ];
   } catch (error) {
     console.error("Team API Error:", error);
@@ -31,7 +43,7 @@ export default async function TeamPage() {
   return (
     <>
       <TeamHero />
-      <TeamDirectory members={members} />
+      <TeamDirectory members={members} totalMembers={totalMembers} />
       <TeamCTA />
     </>
   );

@@ -6,7 +6,7 @@
 export const joinHero = {
   eyebrow: "Join Proyash",
   title: "Become a Member of Proyash",
-  text: "Apply to join Proyash Songgothon, a social welfare organization in Madhupur, Tangail, Bangladesh. Complete the application below and the Proyash administration will review it.",
+  text: "Apply to join Proyash Team, a social welfare organization in Madhupur, Tangail, Bangladesh. Complete the application below and the Proyash administration will review it.",
 };
 
 export const joinSteps = [
@@ -21,8 +21,8 @@ export const personalFields = [
     name: "full_name_bn",
     label: "Full Name (Bengali)",
     type: "text",
-    required: false,
-    placeholder: "Optional",
+    required: true,
+    placeholder: "Full Name (Bengali)",
     lang: "bn",
     autoComplete: "off",
   },
