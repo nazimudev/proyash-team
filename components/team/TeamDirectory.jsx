@@ -55,7 +55,7 @@ export default function TeamDirectory({ members, totalMembers = 0 }) {
             <TeamSection
               id="official-members"
               title="Our Official Members"
-              description="Meet the people actively contributing to the work and activities of Proyash Songgothon."
+              description="Meet the people actively contributing to the work and activities of Proyash Team."
               members={official}
             />
           )}

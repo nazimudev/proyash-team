@@ -47,7 +47,7 @@ export function StatusBadge({ status }) {
 
 const Missing = () => <span className="text-gray-400">Not provided</span>;
 
-function Actions({ app, onView, onReview, onDelete }) {
+function Actions({ app, onView, onEdit, onReview, onDelete }) {
   const pending = app.status === "pending";
 
   return (
@@ -62,7 +62,7 @@ function Actions({ app, onView, onReview, onDelete }) {
 
       <button
         type="button"
-        onClick={() => onView(app)}
+        onClick={() => onEdit(app)}
         className={`${btnPrimary} px-3 py-1.5`}
       >
         Edit
@@ -98,7 +98,7 @@ const HEADERS = [
   "Actions",
 ];
 
-export default function RequestsTable({ applications, onView, onReview, onDelete }) {
+export default function RequestsTable({ applications, onView, onEdit, onReview, onDelete }) {
   console.log(applications);
   return (
     <>
@@ -148,6 +148,7 @@ export default function RequestsTable({ applications, onView, onReview, onDelete
                   <Actions
                     app={x}
                     onView={onView}
+                    onEdit={onEdit}
                     onReview={onReview}
                     onDelete={onDelete}
                   />

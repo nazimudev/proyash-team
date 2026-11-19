@@ -190,6 +190,25 @@ export default function MemberRequestsPage() {
     }
   };
 
+  async function handleMemberSaved() {
+    try {
+      const updatedRows = await fetchMemberApplications();
+
+      setApplications(updatedRows);
+      setDetail(null);
+
+      setToast({
+        tone: "success",
+        text: "Member information updated successfully.",
+      });
+    } catch (error) {
+      setToast({
+        tone: "error",
+        text: error.message || "Failed to refresh member list.",
+      });
+    }
+  }
+
   return (
     <div>
       <nav aria-label="Breadcrumb" className="mb-2 text-sm text-gray-500">
@@ -330,6 +349,7 @@ export default function MemberRequestsPage() {
             <RequestsTable
               applications={rows}
               onView={(a) => setDetail({ id: a.id, mode: "view" })}
+              onEdit={(a) => setDetail({ id: a.id, mode: "edit" })}
               onReview={(a) => setDetail({ id: a.id, mode: "review" })}
               onDelete={handleDelete}
             />
@@ -373,6 +393,7 @@ export default function MemberRequestsPage() {
           setDetail((d) => (d ? { ...d, mode: "review" } : d))
         }
         onDecide={openDecision}
+        onSaved={handleMemberSaved}
       />
       <DecisionDialog
         decision={decision?.type}
