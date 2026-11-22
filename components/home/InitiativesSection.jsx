@@ -41,7 +41,7 @@ export default function InitiativesSection() {
           eyebrow="Our initiatives"
           title="Where We Focus Our Care"
         >
-          Three areas guide the work of Proyash Songgothon, each rooted in the
+          Three areas guide the work of Proyash Team, each rooted in the
           needs of the community around us.
         </SectionHeading>
 

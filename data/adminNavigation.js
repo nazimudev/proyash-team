@@ -20,6 +20,11 @@ import {
   Coins,
   Newspaper,
   Contact,
+  Wallet,
+  CreditCardCheck,
+  ScrollText,
+  PencilSparkles,
+  Send,
 } from "lucide-react";
 
 export const adminNavigation = [
@@ -102,6 +107,32 @@ export const adminNavigation = [
     ],
   },
   {
+    label: "Contributions",
+    icon: Wallet,
+    children: [
+      {
+        label: "Contribution",
+        href: "/admin/contributions/list",
+        icon: ScrollText,
+      },
+      {
+        label: "Payments",
+        href: "/admin/contributions/payments",
+        icon: CreditCardCheck,
+      },
+      {
+        label: "Generate",
+        href: "/admin/contributions/generate",
+        icon: PencilSparkles,
+      },
+      {
+        label: "Payment Entry",
+        href: "/admin/contributions/cash-entry",
+        icon: Send,
+      },
+    ],
+  },
+  {
     label: "Gallery",
     href: "/admin/gallery",
     icon: Images,
@@ -164,9 +195,8 @@ export const adminNavigation = [
         href: "/admin/settings/contact",
         icon: Contact,
         exact: true,
-      }
-
-    ]
+      },
+    ],
   },
 ];
 

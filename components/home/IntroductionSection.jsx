@@ -25,14 +25,17 @@ export default function IntroductionSection() {
             />
             <div className="mt-6 max-w-xl space-y-4 text-lg leading-relaxed text-muted">
               <p>
-                Proyash Songgothon is a social welfare organization based in
-                Madhupur, Tangail, Bangladesh. We believe communities grow
-                stronger when people look out for one another.
+                Proyash is a youth-led voluntary organization dedicated to
+                upholding humanitarian values, supporting disadvantaged and
+                underprivileged communities, promoting education and social
+                awareness, protecting the environment, and nurturing the younger
+                generation into responsible leaders.
               </p>
               <p>
-                Our work centres on three things: supporting people in need,
-                helping underprivileged students continue their education, and
-                promoting care for the environment through tree plantation.
+                We believe that positive social change cannot be achieved
+                through individual efforts alone, but rather through a shared
+                sense of responsibility, empathy, and sustained collective
+                initiatives.
               </p>
             </div>
 

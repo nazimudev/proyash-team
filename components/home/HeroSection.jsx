@@ -4,6 +4,7 @@ import Button from "@/components/ui/Button";
 import Photo from "@/components/ui/Photo";
 import { iconMap } from "@/components/ui/icons";
 import { site, links, images, focusAreas } from "@/data/site";
+import HeroSlider from "./HeroSlider";
 
 export default function HeroSection() {
   return (
@@ -66,46 +67,18 @@ export default function HeroSection() {
               className="rise mt-9 flex flex-col gap-3 sm:flex-row"
               style={{ "--i": 3 }}
             >
-              <Button href="/projects">Our Work</Button>
+              <Button href="/events">Our Work</Button>
               <Button {...links.impect} variant="outline">
                 Our Impact
               </Button>
             </div>
-
-            <ul
-              className="rise mt-12 flex flex-wrap gap-x-8 gap-y-3 border-t border-ink/10 pt-6"
-              style={{ "--i": 4 }}
-              aria-label="Our focus areas"
-            >
-              {focusAreas.map(({ icon, label }) => {
-                const Icon = iconMap[icon];
-                return (
-                  <li
-                    key={label}
-                    className="flex items-center gap-2.5 text-sm font-semibold text-ink/80"
-                  >
-                    <Icon
-                      size={18}
-                      aria-hidden="true"
-                      className="text-forest"
-                    />
-                    {label}
-                  </li>
-                );
-              })}
-            </ul>
           </div>
 
           <div
             className="rise relative pb-10 lg:col-span-6"
             style={{ "--i": 2 }}
           >
-            <Photo
-              {...images.hero}
-              priority
-              sizes="(min-width: 1024px) 560px, 100vw"
-              className="leaf aspect-4/3 object-contain shadow-2xl shadow-deep/15 sm:aspect-16/10 lg:aspect-4/3"
-            />
+            <HeroSlider />
           </div>
         </div>
       </Container>

@@ -15,10 +15,12 @@ export default async function GalleryPage() {
 
   const galleryCategories = [
     { id: "all", label: "All Photos" },
-    { id: "community", label: "Community Support" },
-    { id: "education", label: "Educational Support" },
-    { id: "environment", label: "Tree Plantation" },
-    { id: "events", label: "Events & Activities" },
+    { id: "healthcare", label: "Healthcare" },
+    { id: "education", label: "Education & Awareness" },
+    { id: "humanitarian", label: "Humanitarian Assistance" },
+    { id: "environmental", label: "Environmental" },
+    { id: "youth", label: "Youth Development" },
+    { id: "equality", label: "Equality & Social Inclusion" },
   ];
 
   let images = [];

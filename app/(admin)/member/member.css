@@ -1,0 +1,9 @@
+@keyframes member-slide-in { from { transform: translateX(-100%); } to { transform: none; } }
+@keyframes member-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes member-pop { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+.member-slide-in { animation: member-slide-in .22s ease-out; }
+.member-fade-in { animation: member-fade-in .18s ease-out; }
+.member-pop { animation: member-pop .2s ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .member-slide-in, .member-fade-in, .member-pop { animation: none; }
+}

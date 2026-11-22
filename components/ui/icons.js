@@ -6,6 +6,7 @@ import {
   BookOpen,
   UserStar,
   UserGroup,
+  Stethoscope,
 } from "lucide-react";
 
 /** Maps icon names stored in data (and later, API responses) to Lucide components. */
@@ -17,4 +18,5 @@ export const iconMap = {
   BookOpen,
   UserStar,
   UserGroup,
+  Stethoscope,
 };

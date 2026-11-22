@@ -41,38 +41,62 @@ export default function LoginForm({ signInOpen }) {
 
   async function onSubmit(e) {
     e.preventDefault();
+
     if (busy.current || !signInOpen) return;
+
     const found = {};
-    if (!email.trim()) found.email = "Please enter your email address.";
-    else if (!EMAIL.test(email.trim()))
+
+    if (!email.trim()) {
+      found.email = "Please enter your email address.";
+    } else if (!EMAIL.test(email.trim())) {
       found.email = "Enter a valid email address.";
-    if (!password) found.password = "Please enter your password.";
+    }
+
+    if (!password) {
+      found.password = "Please enter your password.";
+    }
+
     setErrors(found);
+
     if (Object.keys(found).length > 0) {
       requestAnimationFrame(() =>
         document.querySelector('#login-form [aria-invalid="true"]')?.focus(),
       );
       return;
     }
+
     busy.current = true;
     setPhase("submitting");
-    const res = await loginMember({ email: email.trim(), password });
-    busy.current = false;
-    setPassword(""); // never keep the password around
-    if (res.ok) {
-      saveAuth(
-        res.token,
-        res.user.role,
-        res.user,
-      );
-      localStorage.setItem("auth_user", JSON.stringify(res.user));
+    setFailure(null);
 
-      const redirectTo = res.user.role === "admin" ? "/admin" : "/member";
-      router.replace(redirectTo);
-      return;
-    } else {
+    try {
+      const res = await loginMember({
+        email: email.trim(),
+        password,
+      });
+
+      if (res.ok) {
+        saveAuth(res.token, res.user.role, res.user);
+
+        setPassword("");
+        setPhase("idle");
+
+        router.replace(
+          res.redirectTo || (res.user.role === "admin" ? "/admin" : "/member"),
+        );
+
+        return;
+      }
+
       setFailure(res.code);
       setPhase("error");
+    } catch (error) {
+      console.error("Login error:", error);
+
+      setFailure(error.name === "AbortError" ? "timeout" : "unexpected");
+      setPhase("error");
+    } finally {
+      busy.current = false;
     }
   }
 
@@ -154,7 +178,7 @@ export default function LoginForm({ signInOpen }) {
       <p className="text-center text-sm text-muted">
         Not a member yet?{" "}
         <Link
-          href="/join"
+          href="/volunteer"
           className="font-semibold text-forest underline underline-offset-4"
         >
           Join Proyash

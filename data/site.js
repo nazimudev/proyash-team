@@ -76,7 +76,7 @@ export const images = {
     alt: "A student reading in a classroom",
   },
   intro: {
-    src: "/images/home/together.png",
+    src: "/images/home/together_1.jpeg",
     alt: "Volunteers and neighbours gathered during a community activity",
   },
   impact: {
@@ -91,7 +91,7 @@ export const focusAreas = [
     label: "Education and Awareness",
   },
   {
-    icon: "Sprout",
+    icon: "Stethoscope",
     label: "Healthcare and Public Health",
   },
   {

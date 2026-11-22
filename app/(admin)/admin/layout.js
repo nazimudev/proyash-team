@@ -3,7 +3,7 @@ import AuthGuard from "@/components/auth/AuthGuard";
 
 
 export const metadata = {
-  title: "Admin | Proyash Songgothon",
+  title: "Admin | Proyash Team",
   robots: { index: false, follow: false },
 };
 
