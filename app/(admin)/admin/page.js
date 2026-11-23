@@ -10,11 +10,6 @@ export const metadata = {
 export default function AdminDashboardPage() {
   return (
     <>
-      <PageHeader
-        title="Dashboard"
-        description="An overview of members, projects, and donations."
-      />
-
       <DashboardOverview />
     </>
   );
