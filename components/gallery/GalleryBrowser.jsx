@@ -6,26 +6,63 @@ import GalleryFilters from "@/components/gallery/GalleryFilters";
 import GalleryGrid from "@/components/gallery/GalleryGrid";
 import GalleryLightbox from "@/components/gallery/GalleryLightbox";
 
-/** Client island: owns the category filter and lightbox state. `status` is ready for a future API fetch. */
-export default function GalleryBrowser({
-  categories,
-  images,
-  status
-}) {
+const CATEGORY_ALIASES = {
+  healthcare: "healthcare",
+
+  education: "education",
+  educationawareness: "education",
+  educationsupport: "education",
+
+  humanitarian: "humanitarian",
+  humanitarianassistance: "humanitarian",
+  communitysupport: "humanitarian",
+
+  environmental: "environmental",
+  treeplantation: "environmental",
+
+  youth: "youth",
+  youthdevelopment: "youth",
+
+  equality: "equality",
+  equalityandsocialinclusion: "equality",
+
+  others: "others",
+  otheractivities: "others",
+  events: "others",
+  socialactivities: "others",
+};
+
+function normalizeCategory(value) {
+  const normalized = String(value || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
+
+  return CATEGORY_ALIASES[normalized] || normalized;
+}
+
+export default function GalleryBrowser({ categories, images, status }) {
   const [category, setCategory] = useState("all");
   const [openIndex, setOpenIndex] = useState(null);
 
   const labelOf = Object.fromEntries(categories.map((c) => [c.id, c.label]));
+
+  const visible =
+    category === "all"
+      ? images
+      : images.filter(
+          (image) => normalizeCategory(image.category) === category,
+        );
+
   const counts = Object.fromEntries(
     categories.map((c) => [
       c.id,
       c.id === "all"
         ? images.length
-        : images.filter((i) => i.category === c.id).length,
+        : images.filter((image) => normalizeCategory(image.category) === c.id)
+            .length,
     ]),
   );
-  const visible =
-    category === "all" ? images : images.filter((i) => i.category === category);
+
   return (
     <section
       id="gallery-browser"
@@ -37,8 +74,12 @@ export default function GalleryBrowser({
           categories={categories}
           counts={counts}
           value={category}
-          onChange={setCategory}
+          onChange={(value) => {
+            setCategory(value);
+            setOpenIndex(null);
+          }}
         />
+
         {images.length > 0 && status === "ready" && (
           <p
             role="status"

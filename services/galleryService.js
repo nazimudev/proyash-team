@@ -154,16 +154,16 @@ export async function deletePhoto(id) {
   return handleResponse(response);
 }
 
+
 // Public Gallery Category Mapping
 const categoryMap = {
-  "Community Support": "community",
-  "Education Support": "education",
-  "Educational Support": "education",
-  "Tree Plantation": "environment",
-  "Social Activities": "events",
-  Events: "events",
-  "Events & Activities": "events",
-  "Other Activities": "events",
+  "Healthcare": "healthcare",
+  "Education & Awareness": "education",
+  "Humanitarian Assistance": "humanitarian",
+  "Environmental": "environmental",
+  "Youth Development": "youth",
+  "Equality & Social Inclusion": "equality",
+  "Others": "others",
 };
 
 // GET: Public Gallery
@@ -194,11 +194,16 @@ export async function getPublicGallery() {
     .map((item) => ({
       id: item.id,
       title: item.title || "Gallery Photo",
-      category: categoryMap[item.category] || "events",
+
+      category:
+        categoryMap[item.category] || "others",
+
       src:
-        typeof item.image_url === "string" && item.image_url.trim() !== ""
+        typeof item.image_url === "string" &&
+        item.image_url.trim() !== ""
           ? item.image_url.trim()
           : null,
+
       alt: item.alt_text || item.title || "Gallery photo",
       caption: item.description || null,
       dateLabel: item.activity_date || null,

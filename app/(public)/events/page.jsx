@@ -4,15 +4,14 @@ import GalleryHero from "@/components/gallery/GalleryHero";
 import { getPublicGallery } from "@/services/galleryService";
 
 export const metadata = {
-  title: "Gallery | Proyash Songgothon",
+  title: "Gallery | Proyash Team",
   description:
-    "Explore photographs of Proyash Songgothon's community support, educational support, tree plantation, and other documented activities.",
+    "Explore photographs of Proyash Team's community support, educational support, tree plantation, and other documented activities.",
 };
 
 import React from "react";
 
 export default async function GalleryPage() {
-
   const galleryCategories = [
     { id: "all", label: "All Photos" },
     { id: "healthcare", label: "Healthcare" },
@@ -21,6 +20,7 @@ export default async function GalleryPage() {
     { id: "environmental", label: "Environmental" },
     { id: "youth", label: "Youth Development" },
     { id: "equality", label: "Equality & Social Inclusion" },
+    { id: "others", label: "Others" },
   ];
 
   let images = [];
@@ -35,10 +35,13 @@ export default async function GalleryPage() {
 
   return (
     <>
-    <GalleryHero />
-    <GalleryBrowser categories={galleryCategories} images={images} status={status} />
-    <GalleryCTA />
+      <GalleryHero />
+      <GalleryBrowser
+        categories={galleryCategories}
+        images={images}
+        status={status}
+      />
+      <GalleryCTA />
     </>
   );
-};
-
+}
