@@ -342,3 +342,179 @@ export async function getLatestProjects() {
   }));
 }
 
+
+function getProjectImageHeaders() {
+  const token = getToken();
+
+  if (!API_URL) {
+    throw new Error("API URL is not configured.");
+  }
+
+  if (!token) {
+    throw new Error("Admin token is missing.");
+  }
+
+  return {
+    Accept: "application/json",
+    Authorization: `Bearer ${token}`,
+  };
+}
+
+// Fetch project images
+export async function fetchProjectImages(projectId) {
+  const response = await fetch(
+    `${API_URL.replace(/\/+$/, "")}/admin/projects/${projectId}/images`,
+    {
+      method: "GET",
+      headers: getProjectImageHeaders(),
+      cache: "no-store",
+    },
+  );
+
+  const result = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(result.message || "Failed to fetch project images.");
+  }
+
+  return result.data ?? [];
+}
+
+// Upload multiple project images
+
+export async function uploadProjectImages(projectId, files, onProgress) {
+  const token = getToken();
+
+  if (!API_URL) {
+    throw new Error("API URL is not configured.");
+  }
+
+  if (!token) {
+    throw new Error("Admin token is missing.");
+  }
+
+  if (!projectId) {
+    throw new Error("Project ID is missing.");
+  }
+
+  if (!files?.length) {
+    throw new Error("Please select at least one image.");
+  }
+
+  const formData = new FormData();
+
+  files.forEach((file) => {
+    formData.append("images[]", file);
+  });
+
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+
+    xhr.open(
+      "POST",
+      `${API_URL.replace(/\/+$/, "")}/admin/projects/${projectId}/images`,
+    );
+
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable && typeof onProgress === "function") {
+        const percent = Math.round((event.loaded / event.total) * 100);
+        onProgress(percent);
+      }
+    };
+
+    xhr.onload = () => {
+      let result = {};
+
+      try {
+        result = JSON.parse(xhr.responseText);
+      } catch {
+        result = {};
+      }
+
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(result.data ?? result);
+      } else {
+        reject(new Error(result.message || "Image upload failed."));
+      }
+    };
+
+    xhr.onerror = () => {
+      reject(new Error("Network error. Please try again."));
+    };
+
+    xhr.onabort = () => {
+      reject(new Error("Image upload was cancelled."));
+    };
+
+    xhr.send(formData);
+  });
+}
+
+
+// Delete project image
+export async function deleteProjectImage(imageId) {
+  const response = await fetch(
+    `${API_URL.replace(/\/+$/, "")}/admin/project-images/${imageId}`,
+    {
+      method: "DELETE",
+      headers: getProjectImageHeaders(),
+    },
+  );
+
+  const result = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(result.message || "Failed to delete image.");
+  }
+
+  return result;
+}
+
+// Set featured image
+export async function setFeaturedProjectImage(imageId) {
+  const response = await fetch(
+    `${API_URL.replace(/\/+$/, "")}/admin/project-images/${imageId}/featured`,
+    {
+      method: "PATCH",
+      headers: getProjectImageHeaders(),
+    },
+  );
+
+  const result = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(result.message || "Failed to set featured image.");
+  }
+
+  return result;
+}
+
+// Sort project images
+export async function sortProjectImages(projectId, imageIds) {
+  const response = await fetch(
+    `${API_URL.replace(/\/+$/, "")}/admin/projects/${projectId}/images/sort`,
+    {
+      method: "PATCH",
+      headers: {
+        ...getProjectImageHeaders(),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        image_ids: imageIds,
+      }),
+    },
+  );
+
+  const result = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(result.message || "Failed to sort project images.");
+  }
+
+  return result;
+}
+
+

@@ -25,7 +25,9 @@ import {
   ScrollText,
   PencilSparkles,
   Send,
+  Camera,
 } from "lucide-react";
+import Image from "next/image";
 
 export const adminNavigation = [
   {
@@ -38,11 +40,11 @@ export const adminNavigation = [
     label: "Members",
     icon: Users,
     children: [
-      {
-        label: "Add Member",
-        href: "/admin/members/create",
-        icon: UserPlus,
-      },
+      // {
+      //   label: "Add Member",
+      //   href: "/admin/members/create",
+      //   icon: UserPlus,
+      // },
       {
         label: "Member List",
         href: "/admin/members/list",
@@ -81,6 +83,11 @@ export const adminNavigation = [
         label: "Add Project",
         href: "/admin/projects/create",
         icon: FolderPlus,
+      },
+      {
+        label: "Add Images",
+        href: "/admin/projects/images",
+        icon: Camera,
       },
     ],
   },
