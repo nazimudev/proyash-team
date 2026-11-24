@@ -1,10 +1,16 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/+$/, "");
+
+function getApiUrl() {
+  if (!API_URL) {
+    throw new Error("NEXT_PUBLIC_API_URL is not configured.");
+  }
+
+  return API_URL;
+}
 
 const GALLERY_ENDPOINT = `${API_URL}/admin/gallery`;
 
-/**
- * Get authentication headers.
- */
+// Authentication Headers
 function getHeaders() {
   const token =
     typeof window !== "undefined" ? localStorage.getItem("auth_token") : null;
@@ -15,9 +21,7 @@ function getHeaders() {
   };
 }
 
-/**
- * Handle Laravel API responses.
- */
+// Handle Laravel API Responses
 async function handleResponse(response) {
   let result;
 
@@ -32,7 +36,6 @@ async function handleResponse(response) {
 
     error.status = response.status;
 
-    // Convert Laravel validation arrays into strings.
     error.fieldErrors = Object.fromEntries(
       Object.entries(result.errors || {}).map(([key, messages]) => [
         key,
@@ -46,9 +49,7 @@ async function handleResponse(response) {
   return result;
 }
 
-/**
- * Build multipart form data.
- */
+// Build Multipart Form Data
 function buildPhotoFormData(fields, imageFile, method = null) {
   const formData = new FormData();
 
@@ -67,11 +68,10 @@ function buildPhotoFormData(fields, imageFile, method = null) {
     }
   });
 
-  if (imageFile instanceof File) {
+  if (typeof File !== "undefined" && imageFile instanceof File) {
     formData.append("image", imageFile);
   }
 
-  // Laravel method spoofing for multipart updates.
   if (method) {
     formData.append("_method", method);
   }
@@ -79,11 +79,9 @@ function buildPhotoFormData(fields, imageFile, method = null) {
   return formData;
 }
 
-/**
- * GET: Fetch all gallery photos.
- */
+// GET: Admin Gallery
 export async function fetchGalleryPhotos() {
-  const response = await fetch(GALLERY_ENDPOINT, {
+  const response = await fetch(`${getApiUrl()}/admin/gallery`, {
     method: "GET",
     headers: getHeaders(),
     cache: "no-store",
@@ -94,13 +92,11 @@ export async function fetchGalleryPhotos() {
   return result.data;
 }
 
-/**
- * POST: Create gallery photo.
- */
+// POST: Create Gallery Photo
 export async function createPhoto({ fields, imageFile }) {
   const formData = buildPhotoFormData(fields, imageFile);
 
-  const response = await fetch(GALLERY_ENDPOINT, {
+  const response = await fetch(`${getApiUrl()}/admin/gallery`, {
     method: "POST",
     headers: getHeaders(),
     body: formData,
@@ -113,13 +109,11 @@ export async function createPhoto({ fields, imageFile }) {
   };
 }
 
-/**
- * POST with PUT override: Update gallery photo.
- */
+// POST: Update Gallery Photo
 export async function updatePhoto(id, { fields, imageFile }) {
   const formData = buildPhotoFormData(fields, imageFile, "PUT");
 
-  const response = await fetch(`${GALLERY_ENDPOINT}/${id}/update`, {
+  const response = await fetch(`${getApiUrl()}/admin/gallery/${id}/update`, {
     method: "POST",
     headers: getHeaders(),
     body: formData,
@@ -132,11 +126,9 @@ export async function updatePhoto(id, { fields, imageFile }) {
   };
 }
 
-/**
- * PATCH: Publish or unpublish gallery photo.
- */
+// PATCH: Publish / Unpublish
 export async function setPhotoStatus(id, status) {
-  const response = await fetch(`${GALLERY_ENDPOINT}/${id}/status`, {
+  const response = await fetch(`${getApiUrl()}/admin/gallery/${id}/status`, {
     method: "PATCH",
     headers: {
       ...getHeaders(),
@@ -152,11 +144,9 @@ export async function setPhotoStatus(id, status) {
   };
 }
 
-/**
- * DELETE: Remove gallery photo.
- */
+// DELETE: Gallery Photo
 export async function deletePhoto(id) {
-  const response = await fetch(`${GALLERY_ENDPOINT}/${id}`, {
+  const response = await fetch(`${getApiUrl()}/admin/gallery/${id}`, {
     method: "DELETE",
     headers: getHeaders(),
   });
@@ -164,7 +154,7 @@ export async function deletePhoto(id) {
   return handleResponse(response);
 }
 
-
+// Public Gallery Category Mapping
 const categoryMap = {
   "Community Support": "community",
   "Education Support": "education",
@@ -176,8 +166,9 @@ const categoryMap = {
   "Other Activities": "events",
 };
 
+// GET: Public Gallery
 export async function getPublicGallery() {
-  const response = await fetch(`${API_URL}/public/gallery`, {
+  const response = await fetch(`${getApiUrl()}/public/gallery`, {
     headers: {
       Accept: "application/json",
     },
@@ -186,7 +177,13 @@ export async function getPublicGallery() {
     },
   });
 
-  const result = await response.json();
+  let result;
+
+  try {
+    result = await response.json();
+  } catch {
+    throw new Error("Invalid gallery API response.");
+  }
 
   if (!response.ok || !result.success) {
     throw new Error(result.message || "Failed to load gallery.");
