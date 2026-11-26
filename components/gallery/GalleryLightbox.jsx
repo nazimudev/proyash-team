@@ -129,7 +129,7 @@ export default function GalleryLightbox({
                 </p>
               )}
               {image.caption && (
-                <p className="mx-auto mt-0.5 max-w-xl text-justify">{image.caption}</p>
+                <p className="mx-auto mt-0.5 max-w-xl text-left">{image.caption}</p>
               )}
               {!image.isVerified && (
                 <p className="mt-0.5 text-xs text-white/60">
