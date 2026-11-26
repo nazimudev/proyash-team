@@ -24,7 +24,9 @@ export default function GalleryCard({ image, categoryLabel, onOpen }) {
       </div>
       <div className="p-4 sm:p-5">
         <p className="text-xs font-bold text-forest">{categoryLabel}</p>
-        <h3 className="mt-1 font-extrabold leading-snug text-ink">{image.title}</h3>
+        <h3 className="mt-1 font-extrabold leading-snug text-ink">
+          {image.title}
+        </h3>
       </div>
     </button>
   );

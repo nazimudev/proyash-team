@@ -17,14 +17,15 @@ export default function GalleryHero() {
       <Container className="relative">
         <p className="mt-10 flex items-center gap-3 text-sm font-bold tracking-wide text-forest">
           <span aria-hidden="true" className="h-px w-8 bg-current" />
-          Our gallery
+          Our events
         </p>
-        <h1 className="mt-4 max-w-2xl text-balance text-4xl font-extrabold leading-[1.06] tracking-tight text-ink sm:text-5xl lg:text-6xl">
-          Moments That Reflect Our Purpose
+        <h1 className="mt-4 max-w-2xl text-balance text-2xl font-extrabold leading-[1.06] tracking-tight text-ink sm:text-3xl lg:text-4xl">
+          Our Actions, Our Impact
         </h1>
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
-          Explore moments from our community initiatives, educational support,
-          environmental activities, and efforts to support people in need.
+          Explore the events and initiatives through which we turn our
+          commitment to humanity, education, healthcare, environmental
+          sustainability, and social development into meaningful action.
         </p>
       </Container>
     </section>

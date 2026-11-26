@@ -40,7 +40,7 @@ const AboutPage = () => {
       <VisionMission vision={vision} mission={mission} draftLabel={draftBadgeLabel} />
       <CoreValues content={coreValues} />
       <FounderProfile content={founder} />
-      {/* <FounderMessage content={founderMessage} founder={founder} /> */}
+      <FounderMessage content={founderMessage} founder={founder} />
       <CommitmentSection content={commitments} />
       <AboutCTA content={cta} />
     </>

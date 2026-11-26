@@ -4,12 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
-/**
- * Lightbox on the native <dialog> element: showModal() makes the page behind it
- * inert, traps Tab focus, closes on Escape, and returns focus to the thumbnail
- * that opened it. We add arrow-key navigation, scroll lock and backdrop click.
- * `index` is null when closed.
- */
+
 export default function GalleryLightbox({
   images,
   index,
@@ -134,7 +129,7 @@ export default function GalleryLightbox({
                 </p>
               )}
               {image.caption && (
-                <p className="mx-auto mt-0.5 max-w-xl">{image.caption}</p>
+                <p className="mx-auto mt-0.5 max-w-xl text-justify">{image.caption}</p>
               )}
               {!image.isVerified && (
                 <p className="mt-0.5 text-xs text-white/60">

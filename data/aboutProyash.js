@@ -207,7 +207,7 @@ export const founder = [
     name: "Alif Siddique Taj",
     designation: "Founder & President",
     message:
-      "Alif Siddiqui Taj is a founder of Proyash who has been committed to humanitarian service and organizational development since its inception. He believes in the power of collective efforts to bring positive change to society.",
+      "Alif Siddique Taj is a founder of Proyash who has been committed to humanitarian service and organizational development since its inception. He believes in the power of collective efforts to bring positive change to society.",
     portrait: {
       src: "/images/about/taz1.jpeg", // e.g. "/images/founder.jpg" (file must exist in /public)
       width: 800,

@@ -86,7 +86,8 @@ export default function GalleryBrowser({ categories, images, status }) {
             aria-live="polite"
             className="mt-5 text-sm font-semibold text-muted"
           >
-            Showing {visible.length} {visible.length === 1 ? "photo" : "photos"}
+            Showing {visible.length}{" "}
+            {visible.length === 1 ? "event" : "events"}
           </p>
         )}
 
